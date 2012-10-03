@@ -1,0 +1,342 @@
+
+build/ch.elf:     file format elf32-littlearm
+build/ch.elf
+architecture: arm, flags 0x00000112:
+EXEC_P, HAS_SYMS, D_PAGED
+start address 0x08000190
+
+Program Header:
+    LOAD off    0x00008000 vaddr 0x08000000 paddr 0x08000000 align 2**15
+         filesz 0x00001cac memsz 0x00001cb0 flags rwx
+    LOAD off    0x00010800 vaddr 0x20000800 paddr 0x08001cb0 align 2**15
+         filesz 0x00000000 memsz 0x000006a8 flags rw-
+    LOAD off    0x00010000 vaddr 0x20000000 paddr 0x20000000 align 2**15
+         filesz 0x00000000 memsz 0x00000800 flags rw-
+private flags = 5000002: [Version5 EABI] [has entry point]
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 startup       00000184  08000000  08000000  00008000  2**4
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         00001b1c  08000190  08000190  00008190  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .textalign    00000004  08001cac  08001cac  00009cac  2**0
+                  ALLOC
+  3 .stacks       00000800  20000000  20000000  00010000  2**0
+                  ALLOC
+  4 .bss          000006a8  20000800  08001cb0  00010800  2**3
+                  ALLOC
+  5 .debug_info   00013f95  00000000  00000000  00009cac  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00004887  00000000  00000000  0001dc41  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_loc    00002f1c  00000000  00000000  000224c8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_aranges 00000dc0  00000000  00000000  000253e4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000b20  00000000  00000000  000261a4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_line   00008512  00000000  00000000  00026cc4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_str    00002ace  00000000  00000000  0002f1d6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .comment      00000070  00000000  00000000  00031ca4  2**0
+                  CONTENTS, READONLY
+ 13 .ARM.attributes 00000033  00000000  00000000  00031d14  2**0
+                  CONTENTS, READONLY
+ 14 .debug_frame  00002328  00000000  00000000  00031d48  2**2
+                  CONTENTS, READONLY, DEBUGGING
+SYMBOL TABLE:
+08000000 l    d  startup	00000000 startup
+08000190 l    d  .text	00000000 .text
+08001cac l    d  .textalign	00000000 .textalign
+20000000 l    d  .stacks	00000000 .stacks
+20000800 l    d  .bss	00000000 .bss
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_loc	00000000 .debug_loc
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_ranges	00000000 .debug_ranges
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .ARM.attributes	00000000 .ARM.attributes
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    df *ABS*	00000000 vectors.c
+00000000 l    df *ABS*	00000000 crt0.c
+080001b0 l     F .text	00000024 fill32
+00000000 l    df *ABS*	00000000 chcore.c
+00000000 l    df *ABS*	00000000 chcore_v7m.c
+0800045c l       .text	00000000 _port_exit_from_isr
+00000000 l    df *ABS*	00000000 nvic.c
+00000000 l    df *ABS*	00000000 chsys.c
+200008c0 l     O .bss	0000004c mainthread.4684
+00000000 l    df *ABS*	00000000 chdebug.c
+00000000 l    df *ABS*	00000000 chvt.c
+00000000 l    df *ABS*	00000000 chschd.c
+08000b80 l     F .text	00000022 fifo_remove
+08000bb0 l     F .text	00000020 dequeue
+08000d40 l     F .text	0000009e wakeup
+00000000 l    df *ABS*	00000000 chthreads.c
+08001040 l     F .text	0000001a list_remove
+00000000 l    df *ABS*	00000000 chmtx.c
+00000000 l    df *ABS*	00000000 chmemcore.c
+20000d4c l     O .bss	00000004 nextmem
+20000d50 l     O .bss	00000004 endmem
+00000000 l    df *ABS*	00000000 chheap.c
+20000d58 l     O .bss	00000020 default_heap
+00000000 l    df *ABS*	00000000 hal.c
+00000000 l    df *ABS*	00000000 hal_lld.c
+08001450 l     F .text	0000008c hal_lld_backup_domain_init
+00000000 l    df *ABS*	00000000 pal_lld.c
+08001790 l     F .text	00000042 initgpio
+00000000 l    df *ABS*	00000000 board.c
+00000000 l    df *ABS*	00000000 main.c
+20000d78 l     O .bss	00000130 waThread1
+08001900 l     F .text	00000034 Thread1
+00000000 l    df *ABS*	00000000 chlists.c
+00000000 l    df *ABS*	00000000 chdynamic.c
+00000000 l    df *ABS*	00000000 chregistry.c
+00000000 l    df *ABS*	00000000 chsem.c
+00000000 l    df *ABS*	00000000 chcond.c
+00000000 l    df *ABS*	00000000 chevents.c
+00000000 l    df *ABS*	00000000 chmsg.c
+00000000 l    df *ABS*	00000000 chmboxes.c
+00000000 l    df *ABS*	00000000 chqueues.c
+00000000 l    df *ABS*	00000000 chmempools.c
+00000000 l    df *ABS*	00000000 test.c
+00000000 l    df *ABS*	00000000 testthd.c
+00000000 l    df *ABS*	00000000 testsem.c
+00000000 l    df *ABS*	00000000 testmtx.c
+00000000 l    df *ABS*	00000000 testmsg.c
+00000000 l    df *ABS*	00000000 testmbox.c
+00000000 l    df *ABS*	00000000 testevt.c
+00000000 l    df *ABS*	00000000 testheap.c
+00000000 l    df *ABS*	00000000 testpools.c
+00000000 l    df *ABS*	00000000 testdyn.c
+00000000 l    df *ABS*	00000000 testqueues.c
+00000000 l    df *ABS*	00000000 testbmk.c
+00000000 l    df *ABS*	00000000 adc.c
+00000000 l    df *ABS*	00000000 can.c
+00000000 l    df *ABS*	00000000 ext.c
+00000000 l    df *ABS*	00000000 gpt.c
+00000000 l    df *ABS*	00000000 i2c.c
+00000000 l    df *ABS*	00000000 icu.c
+00000000 l    df *ABS*	00000000 mac.c
+00000000 l    df *ABS*	00000000 mmc_spi.c
+00000000 l    df *ABS*	00000000 mmcsd.c
+00000000 l    df *ABS*	00000000 pal.c
+00000000 l    df *ABS*	00000000 pwm.c
+00000000 l    df *ABS*	00000000 rtc.c
+00000000 l    df *ABS*	00000000 sdc.c
+00000000 l    df *ABS*	00000000 serial.c
+00000000 l    df *ABS*	00000000 serial_usb.c
+00000000 l    df *ABS*	00000000 spi.c
+00000000 l    df *ABS*	00000000 tm.c
+00000000 l    df *ABS*	00000000 uart.c
+00000000 l    df *ABS*	00000000 usb.c
+00000000 l    df *ABS*	00000000 stm32_dma.c
+00000000 l    df *ABS*	00000000 adc_lld.c
+00000000 l    df *ABS*	00000000 ext_lld_isr.c
+00000000 l    df *ABS*	00000000 can_lld.c
+00000000 l    df *ABS*	00000000 ext_lld.c
+00000000 l    df *ABS*	00000000 gpt_lld.c
+00000000 l    df *ABS*	00000000 icu_lld.c
+00000000 l    df *ABS*	00000000 mac_lld.c
+00000000 l    df *ABS*	00000000 pwm_lld.c
+00000000 l    df *ABS*	00000000 sdc_lld.c
+00000000 l    df *ABS*	00000000 serial_lld.c
+00000000 l    df *ABS*	00000000 spi_lld.c
+00000000 l    df *ABS*	00000000 i2c_lld.c
+00000000 l    df *ABS*	00000000 usb_lld.c
+00000000 l    df *ABS*	00000000 rtc_lld.c
+00000000 l    df *ABS*	00000000 uart_lld.c
+00000000 l    df *ABS*	00000000 evtimer.c
+00000000 l    df *ABS*	00000000 syscalls.c
+00000000 l    df *ABS*	00000000 memset.c
+08001bb0 g     O .text	000000fc pal_default_config
+080002c0  w    F .text	00000002 Vector58
+080002c0  w    F .text	00000002 VectorE8
+080002c0  w    F .text	00000002 Vector9C
+08000780 g     F .text	0000003a dbg_check_lock_from_isr
+080002c0  w    F .text	00000002 VectorAC
+08001230 g     F .text	0000001c chThdExit
+080005e0 g     F .text	000000ea chSysTimerHandlerI
+08000de0 g     F .text	0000006a chSchGoSleepTimeoutS
+08000700 g     F .text	0000003a dbg_check_lock
+080002c0  w    F .text	00000002 Vector5C
+080002c0  w    F .text	00000002 NMIVector
+080002c0  w    F .text	00000002 Vector11C
+080002c0  w    F .text	00000002 Vector8C
+080002c0  w    F .text	00000002 VectorDC
+080002c0  w    F .text	00000002 Vector168
+08000000 g     O startup	00000184 _vectors
+08000cb0 g     F .text	0000008e chSchGoSleepS
+080002c0  w    F .text	00000002 Vector110
+20000ea8 g       *ABS*	00000000 __heap_base__
+08001cb0 g       *ABS*	00000000 _etext
+080002c0  w    F .text	00000002 Vector120
+08001120 g     F .text	00000074 chThdCreateI
+080006d0 g     F .text	0000002c dbg_check_enable
+080002c0  w    F .text	00000002 VectorC8
+08000e50 g     F .text	00000084 chSchWakeupS
+08000bd0 g     F .text	0000005c _scheduler_init
+080011a0 g     F .text	0000004a chThdCreateStatic
+080002c0  w    F .text	00000002 Vector94
+080002c0  w    F .text	00000002 VectorA8
+080002c0  w    F .text	00000002 VectorB4
+08000c30 g     F .text	00000076 chSchReadyI
+08000184 g       startup	00000000 __fini_array_end
+080002d0  w    F .text	00000004 port_halt
+20000800 g       .stacks	00000000 __main_thread_stack_end__
+08000a00 g     F .text	00000044 _vt_init
+08001380 g     F .text	00000068 chCoreAllocI
+080013f0 g     F .text	0000003c _heap_init
+080002c0  w    F .text	00000002 Vector74
+08001430 g     F .text	00000018 halInit
+080002c0  w    F .text	00000002 Vector160
+080002c0  w    F .text	00000002 VectorEC
+20000800 g       .bss	00000000 _bss_start
+08000ee0 g     F .text	00000080 chSchDoRescheduleBehind
+080002c0  w    F .text	00000002 UsageFaultVector
+2001c000 g       *ABS*	00000000 __heap_end__
+080002c0  w    F .text	00000002 DebugMonitorVector
+08000740 g     F .text	0000003a dbg_check_unlock
+080002c0  w    F .text	00000002 Vector40
+080002c0  w    F .text	00000002 VectorF8
+080002c0  w    F .text	00000002 Vector108
+080001e0 g     F .text	000000d8 ResetHandler
+080002c0  w    F .text	00000002 VectorBC
+080002c0  w    F .text	00000002 Vector150
+080002c0  w    F .text	00000002 Vector124
+08000340 g     F .text	00000048 _port_init
+080014e0 g     F .text	00000138 hal_lld_init
+08001250 g     F .text	00000076 chThdExitS
+080002c0  w    F .text	00000002 Vector148
+20000914 g     O .bss	00000408 dbg_trace_buffer
+080002c0  w    F .text	00000002 PendSVVector
+080002c0  w    F .text	00000002 Vector118
+08000a50 g     F .text	000000a6 chVTSetI
+080002c0  w    F .text	00000002 Vector64
+20000ea8 g       .bss	00000000 _bss_end
+20000d1c g     O .bss	00000004 dbg_panic_msg
+080001a0  w    F .text	00000002 _default_exit
+080002c0  w    F .text	00000002 VectorCC
+080002c0  w    F .text	00000002 Vector54
+080002c0  w    F .text	00000002 Vector98
+080002c0  w    F .text	00000002 VectorD8
+080002c0  w    F .text	00000002 Vector138
+080002c0  w    F .text	00000002 Vector24
+080008c0 g     F .text	0000002c chDbgCheckClassI
+08001020 g     F .text	00000020 chSchDoReschedule
+08000530 g     F .text	000000a6 chSysInit
+080002c0  w    F .text	00000002 Vector178
+080011f0 g     F .text	0000003e chThdSleep
+080002c0  w    F .text	00000002 Vector84
+080002e0 g     F .text	0000002c SysTickVector
+2000090c g     O .bss	00000004 dbg_isr_cnt
+08001620 g     F .text	0000016a stm32_clock_init
+080017e0 g     F .text	000000f2 _pal_lld_init
+080002c0  w    F .text	00000002 BusFaultVector
+080002c0  w    F .text	00000002 VectorD0
+08001310 g     F .text	00000036 _core_init
+080002c0  w    F .text	00000002 Vector140
+080002c0  w    F .text	00000002 VectorE4
+080002c0  w    F .text	00000002 VectorC0
+080002c0  w    F .text	00000002 Vector158
+080002c0  w    F .text	00000002 Vector130
+08000460 g     F .text	00000014 _port_switch
+0001c000 g       *ABS*	00000000 __ram_size__
+08000310 g     F .text	00000026 SVCallVector
+08000190  w    F .text	00000002 __late_init
+080009e0 g     F .text	0000001a chDbgPanic
+20000d20 g     O .bss	00000010 vtlist
+080002c0  w    F .text	00000002 HardFaultVector
+08000390 g     F .text	000000c0 _port_irq_epilogue
+080002c0  w    F .text	00000002 Vector134
+08001350 g     F .text	00000030 chCoreAlloc
+080008f0 g     F .text	0000002c chDbgCheckClassS
+080002c0  w    F .text	00000002 VectorF0
+080002c0  w    F .text	00000002 Vector12C
+080002c0  w    F .text	00000002 Vector13C
+080002c0  w    F .text	00000002 Vector100
+08000860 g     F .text	00000054 dbg_check_leave_isr
+08001cb0 g       *ABS*	00000000 _textdata
+080002c0  w    F .text	00000002 VectorE0
+00000000 g       *ABS*	00000000 _text
+080002c0  w    F .text	00000002 VectorF4
+080002c0  w    F .text	00000002 MemManageVector
+08000184 g       startup	00000000 __fini_array_start
+08001940 g     F .text	00000038 main
+080002c0  w    F .text	00000002 Vector6C
+20000d30 g     O .bss	0000001c rlist
+080002c0  w    F .text	00000002 VectorA0
+08000800 g     F .text	00000054 dbg_check_enter_isr
+08000184 g       startup	00000000 __init_array_end
+080002c0  w    F .text	00000002 VectorC4
+080002c0  w    F .text	00000002 Vector7C
+080002c0  w    F .text	00000002 Vector180
+080012d0 g     F .text	00000032 chMtxInit
+08000510 g     F .text	0000001a _idle_thread
+080002c0  w    F .text	00000002 VectorB0
+080002c0  w    F .text	00000002 Vector90
+20000910 g     O .bss	00000004 dbg_lock_cnt
+080002c0  w    F .text	00000002 Vector114
+20000000 g       *ABS*	00000000 __ram_start__
+08000480 g     F .text	00000018 _port_thread_start
+080002c0  w    F .text	00000002 Vector164
+080002c0  w    F .text	00000002 Vector60
+080002c0  w    F .text	00000002 Vector1C
+08000f60 g     F .text	000000b4 chSchDoRescheduleAhead
+080002c0  w    F .text	00000002 Vector17C
+080002c0  w    F .text	00000002 Vector48
+20000400 g       .stacks	00000000 __process_stack_base__
+080002c0  w    F .text	00000002 Vector16C
+080002c0  w    F .text	00000002 Vector70
+080002c0  w    F .text	00000002 VectorD4
+080004a0 g     F .text	00000062 nvicSetSystemHandlerPriority
+20000800 g     O .bss	000000c0 _idle_thread_wa
+20000800 g       .bss	00000000 _data
+080002c0  w    F .text	00000002 Vector4C
+080002c0  w    F .text	00000002 Vector144
+080002c0  w    F .text	00000002 Vector80
+08000450 g     F .text	0000000e _port_switch_from_isr
+080002c0  w    F .text	00000002 Vector15C
+080002c0  w    F .text	00000002 Vector68
+08000920 g     F .text	00000020 _trace_init
+20000400 g       .stacks	00000000 __main_stack_end__
+080002c0  w    F .text	00000002 Vector78
+2001c000 g       *ABS*	00000000 __ram_end__
+20000800 g       .bss	00000000 _edata
+20000ea8 g       *ABS*	00000000 _end
+08000b00 g     F .text	00000072 chVTResetI
+080002c0 g     F .text	00000002 _unhandled_exception
+080002c0  w    F .text	00000002 Vector170
+080002c0  w    F .text	00000002 Vector88
+20000400 g       .stacks	00000000 __main_thread_stack_base__
+080002c0  w    F .text	00000002 Vector104
+080002c0  w    F .text	00000002 Vector10C
+08000940 g     F .text	00000094 dbg_trace
+08000184 g       startup	00000000 __init_array_start
+080002c0  w    F .text	00000002 Vector14C
+08001060 g     F .text	000000be _thread_init
+080002c0  w    F .text	00000002 Vector50
+080002c0  w    F .text	00000002 Vector154
+20000000 g       .stacks	00000000 __main_stack_base__
+080002c0  w    F .text	00000002 Vector44
+080002c0  w    F .text	00000002 Vector28
+080018f0 g     F .text	00000002 boardInit
+080002c0  w    F .text	00000002 VectorB8
+00000400 g       *ABS*	00000000 __main_stack_size__
+080002c0  w    F .text	00000002 VectorFC
+080007c0 g     F .text	0000003a dbg_check_unlock_from_isr
+20000800 g       .stacks	00000000 __process_stack_end__
+080002c0  w    F .text	00000002 Vector34
+080018e0 g     F .text	00000008 __early_init
+080002c0  w    F .text	00000002 Vector128
+080002c0  w    F .text	00000002 VectorA4
+00000400 g       *ABS*	00000000 __process_stack_size__
+080002c0  w    F .text	00000002 Vector20
+080002c0  w    F .text	00000002 Vector174
+
+

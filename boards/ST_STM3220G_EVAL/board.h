@@ -32,11 +32,24 @@
 #define BOARD_NAME              "ST STM3220G-EVAL"
 
 /*
+ * Ethernet PHY type.
+ */
+#define BOARD_PHY_ID            MII_DP83848I_ID
+#define BOARD_PHY_ADDRESS       0
+//#define BOARD_PHY_RMII
+
+/*
  * Board frequencies.
  * NOTE: The HSE crystal is not fitted by default on the board.
  */
 #define STM32_LSECLK            32768
 #define STM32_HSECLK            25000000
+
+/*
+ * Board voltages.
+ * Required for performance limits calculation.
+ */
+#define STM32_VDD               300
 
 /*
  * MCU type as defined in the ST header file stm32f2xx.h.

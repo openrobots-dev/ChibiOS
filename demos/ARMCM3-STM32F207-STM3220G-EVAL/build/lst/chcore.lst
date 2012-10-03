@@ -1,0 +1,319 @@
+ARM GAS  /tmp/ccvOCSQc.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"chcore.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.port_halt,"ax",%progbits
+  19              		.align	2
+  20              		.p2align 4,,15
+  21              		.weak	port_halt
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	port_halt, %function
+  25              	port_halt:
+  26              	.LFB7:
+  27              		.file 1 "../../os/ports/GCC/ARMCMx/chcore.c"
+  28              		.loc 1 39 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33              		.loc 1 41 0
+  34              	@ 41 "../../os/ports/GCC/ARMCMx/chcore.c" 1
+  35 0000 72B6     		cpsid   i
+  36              	@ 0 "" 2
+  37              		.thumb
+  38              	.L2:
+  39              		.loc 1 43 0 discriminator 1
+  40 0002 FEE7     		b	.L2
+  41              		.cfi_endproc
+  42              	.LFE7:
+  43              		.size	port_halt, .-port_halt
+  44 0004 AFF30080 		.text
+  44      AFF30080 
+  44      AFF30080 
+  45              	.Letext0:
+  46              		.section	.debug_info,"",%progbits
+  47              	.Ldebug_info0:
+  48 0000 87000000 		.4byte	0x87
+  49 0004 0200     		.2byte	0x2
+  50 0006 00000000 		.4byte	.Ldebug_abbrev0
+  51 000a 04       		.byte	0x4
+  52 000b 01       		.uleb128 0x1
+  53 000c A9000000 		.4byte	.LASF10
+  54 0010 01       		.byte	0x1
+  55 0011 0E010000 		.4byte	.LASF11
+ARM GAS  /tmp/ccvOCSQc.s 			page 2
+
+
+  56 0015 39000000 		.4byte	.LASF12
+  57 0019 00000000 		.4byte	0
+  58 001d 00000000 		.4byte	0
+  59 0021 00000000 		.4byte	.Ldebug_ranges0+0
+  60 0025 00000000 		.4byte	.Ldebug_line0
+  61 0029 02       		.uleb128 0x2
+  62 002a 04       		.byte	0x4
+  63 002b 05       		.byte	0x5
+  64 002c 696E7400 		.ascii	"int\000"
+  65 0030 03       		.uleb128 0x3
+  66 0031 04       		.byte	0x4
+  67 0032 07       		.byte	0x7
+  68 0033 00000000 		.4byte	.LASF0
+  69 0037 03       		.uleb128 0x3
+  70 0038 01       		.byte	0x1
+  71 0039 06       		.byte	0x6
+  72 003a 2D000000 		.4byte	.LASF1
+  73 003e 03       		.uleb128 0x3
+  74 003f 01       		.byte	0x1
+  75 0040 08       		.byte	0x8
+  76 0041 1F000000 		.4byte	.LASF2
+  77 0045 03       		.uleb128 0x3
+  78 0046 02       		.byte	0x2
+  79 0047 05       		.byte	0x5
+  80 0048 88000000 		.4byte	.LASF3
+  81 004c 03       		.uleb128 0x3
+  82 004d 02       		.byte	0x2
+  83 004e 07       		.byte	0x7
+  84 004f F2000000 		.4byte	.LASF4
+  85 0053 03       		.uleb128 0x3
+  86 0054 04       		.byte	0x4
+  87 0055 05       		.byte	0x5
+  88 0056 05010000 		.4byte	.LASF5
+  89 005a 03       		.uleb128 0x3
+  90 005b 04       		.byte	0x4
+  91 005c 07       		.byte	0x7
+  92 005d 0D000000 		.4byte	.LASF6
+  93 0061 03       		.uleb128 0x3
+  94 0062 08       		.byte	0x8
+  95 0063 05       		.byte	0x5
+  96 0064 36010000 		.4byte	.LASF7
+  97 0068 03       		.uleb128 0x3
+  98 0069 08       		.byte	0x8
+  99 006a 07       		.byte	0x7
+ 100 006b 92000000 		.4byte	.LASF8
+ 101 006f 03       		.uleb128 0x3
+ 102 0070 01       		.byte	0x1
+ 103 0071 08       		.byte	0x8
+ 104 0072 31010000 		.4byte	.LASF9
+ 105 0076 04       		.uleb128 0x4
+ 106 0077 01       		.byte	0x1
+ 107 0078 7E000000 		.4byte	.LASF13
+ 108 007c 01       		.byte	0x1
+ 109 007d 27       		.byte	0x27
+ 110 007e 01       		.byte	0x1
+ 111 007f 00000000 		.4byte	.LFB7
+ 112 0083 04000000 		.4byte	.LFE7
+ARM GAS  /tmp/ccvOCSQc.s 			page 3
+
+
+ 113 0087 02       		.byte	0x2
+ 114 0088 7D       		.byte	0x7d
+ 115 0089 00       		.sleb128 0
+ 116 008a 00       		.byte	0
+ 117              		.section	.debug_abbrev,"",%progbits
+ 118              	.Ldebug_abbrev0:
+ 119 0000 01       		.uleb128 0x1
+ 120 0001 11       		.uleb128 0x11
+ 121 0002 01       		.byte	0x1
+ 122 0003 25       		.uleb128 0x25
+ 123 0004 0E       		.uleb128 0xe
+ 124 0005 13       		.uleb128 0x13
+ 125 0006 0B       		.uleb128 0xb
+ 126 0007 03       		.uleb128 0x3
+ 127 0008 0E       		.uleb128 0xe
+ 128 0009 1B       		.uleb128 0x1b
+ 129 000a 0E       		.uleb128 0xe
+ 130 000b 11       		.uleb128 0x11
+ 131 000c 01       		.uleb128 0x1
+ 132 000d 52       		.uleb128 0x52
+ 133 000e 01       		.uleb128 0x1
+ 134 000f 55       		.uleb128 0x55
+ 135 0010 06       		.uleb128 0x6
+ 136 0011 10       		.uleb128 0x10
+ 137 0012 06       		.uleb128 0x6
+ 138 0013 00       		.byte	0
+ 139 0014 00       		.byte	0
+ 140 0015 02       		.uleb128 0x2
+ 141 0016 24       		.uleb128 0x24
+ 142 0017 00       		.byte	0
+ 143 0018 0B       		.uleb128 0xb
+ 144 0019 0B       		.uleb128 0xb
+ 145 001a 3E       		.uleb128 0x3e
+ 146 001b 0B       		.uleb128 0xb
+ 147 001c 03       		.uleb128 0x3
+ 148 001d 08       		.uleb128 0x8
+ 149 001e 00       		.byte	0
+ 150 001f 00       		.byte	0
+ 151 0020 03       		.uleb128 0x3
+ 152 0021 24       		.uleb128 0x24
+ 153 0022 00       		.byte	0
+ 154 0023 0B       		.uleb128 0xb
+ 155 0024 0B       		.uleb128 0xb
+ 156 0025 3E       		.uleb128 0x3e
+ 157 0026 0B       		.uleb128 0xb
+ 158 0027 03       		.uleb128 0x3
+ 159 0028 0E       		.uleb128 0xe
+ 160 0029 00       		.byte	0
+ 161 002a 00       		.byte	0
+ 162 002b 04       		.uleb128 0x4
+ 163 002c 2E       		.uleb128 0x2e
+ 164 002d 00       		.byte	0
+ 165 002e 3F       		.uleb128 0x3f
+ 166 002f 0C       		.uleb128 0xc
+ 167 0030 03       		.uleb128 0x3
+ 168 0031 0E       		.uleb128 0xe
+ 169 0032 3A       		.uleb128 0x3a
+ARM GAS  /tmp/ccvOCSQc.s 			page 4
+
+
+ 170 0033 0B       		.uleb128 0xb
+ 171 0034 3B       		.uleb128 0x3b
+ 172 0035 0B       		.uleb128 0xb
+ 173 0036 27       		.uleb128 0x27
+ 174 0037 0C       		.uleb128 0xc
+ 175 0038 11       		.uleb128 0x11
+ 176 0039 01       		.uleb128 0x1
+ 177 003a 12       		.uleb128 0x12
+ 178 003b 01       		.uleb128 0x1
+ 179 003c 40       		.uleb128 0x40
+ 180 003d 0A       		.uleb128 0xa
+ 181 003e 00       		.byte	0
+ 182 003f 00       		.byte	0
+ 183 0040 00       		.byte	0
+ 184              		.section	.debug_aranges,"",%progbits
+ 185 0000 1C000000 		.4byte	0x1c
+ 186 0004 0200     		.2byte	0x2
+ 187 0006 00000000 		.4byte	.Ldebug_info0
+ 188 000a 04       		.byte	0x4
+ 189 000b 00       		.byte	0
+ 190 000c 0000     		.2byte	0
+ 191 000e 0000     		.2byte	0
+ 192 0010 00000000 		.4byte	.LFB7
+ 193 0014 04000000 		.4byte	.LFE7-.LFB7
+ 194 0018 00000000 		.4byte	0
+ 195 001c 00000000 		.4byte	0
+ 196              		.section	.debug_ranges,"",%progbits
+ 197              	.Ldebug_ranges0:
+ 198 0000 00000000 		.4byte	.LFB7
+ 199 0004 04000000 		.4byte	.LFE7
+ 200 0008 00000000 		.4byte	0
+ 201 000c 00000000 		.4byte	0
+ 202              		.section	.debug_line,"",%progbits
+ 203              	.Ldebug_line0:
+ 204 0000 54000000 		.section	.debug_str,"MS",%progbits,1
+ 204      02003900 
+ 204      00000201 
+ 204      FB0E0D00 
+ 204      01010101 
+ 205              	.LASF0:
+ 206 0000 756E7369 		.ascii	"unsigned int\000"
+ 206      676E6564 
+ 206      20696E74 
+ 206      00
+ 207              	.LASF6:
+ 208 000d 6C6F6E67 		.ascii	"long unsigned int\000"
+ 208      20756E73 
+ 208      69676E65 
+ 208      6420696E 
+ 208      7400
+ 209              	.LASF2:
+ 210 001f 756E7369 		.ascii	"unsigned char\000"
+ 210      676E6564 
+ 210      20636861 
+ 210      7200
+ 211              	.LASF1:
+ 212 002d 7369676E 		.ascii	"signed char\000"
+ARM GAS  /tmp/ccvOCSQc.s 			page 5
+
+
+ 212      65642063 
+ 212      68617200 
+ 213              	.LASF12:
+ 214 0039 2F686F6D 		.ascii	"/home/texzk/ChibiStudio/chibios/demos/ARMCM3-STM32F"
+ 214      652F7465 
+ 214      787A6B2F 
+ 214      43686962 
+ 214      69537475 
+ 215 006c 3230372D 		.ascii	"207-STM3220G-EVAL\000"
+ 215      53544D33 
+ 215      32323047 
+ 215      2D455641 
+ 215      4C00
+ 216              	.LASF13:
+ 217 007e 706F7274 		.ascii	"port_halt\000"
+ 217      5F68616C 
+ 217      7400
+ 218              	.LASF3:
+ 219 0088 73686F72 		.ascii	"short int\000"
+ 219      7420696E 
+ 219      7400
+ 220              	.LASF8:
+ 221 0092 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 221      206C6F6E 
+ 221      6720756E 
+ 221      7369676E 
+ 221      65642069 
+ 222              	.LASF10:
+ 223 00a9 474E5520 		.ascii	"GNU C 4.6.2 20120613 (release) [ARM/embedded-4_6-br"
+ 223      4320342E 
+ 223      362E3220 
+ 223      32303132 
+ 223      30363133 
+ 224 00dc 616E6368 		.ascii	"anch revision 188521]\000"
+ 224      20726576 
+ 224      6973696F 
+ 224      6E203138 
+ 224      38353231 
+ 225              	.LASF4:
+ 226 00f2 73686F72 		.ascii	"short unsigned int\000"
+ 226      7420756E 
+ 226      7369676E 
+ 226      65642069 
+ 226      6E7400
+ 227              	.LASF5:
+ 228 0105 6C6F6E67 		.ascii	"long int\000"
+ 228      20696E74 
+ 228      00
+ 229              	.LASF11:
+ 230 010e 2E2E2F2E 		.ascii	"../../os/ports/GCC/ARMCMx/chcore.c\000"
+ 230      2E2F6F73 
+ 230      2F706F72 
+ 230      74732F47 
+ 230      43432F41 
+ 231              	.LASF9:
+ 232 0131 63686172 		.ascii	"char\000"
+ 232      00
+ARM GAS  /tmp/ccvOCSQc.s 			page 6
+
+
+ 233              	.LASF7:
+ 234 0136 6C6F6E67 		.ascii	"long long int\000"
+ 234      206C6F6E 
+ 234      6720696E 
+ 234      7400
+ 235              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.6.2 20120613 (release) [ARM/embedded-4_6-br
+ARM GAS  /tmp/ccvOCSQc.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 chcore.c
+     /tmp/ccvOCSQc.s:19     .text.port_halt:00000000 $t
+     /tmp/ccvOCSQc.s:25     .text.port_halt:00000000 port_halt
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS

@@ -1,0 +1,739 @@
+
+build/ch.elf:     file format elf32-littlearm
+build/ch.elf
+architecture: arm, flags 0x00000112:
+EXEC_P, HAS_SYMS, D_PAGED
+start address 0x08000190
+
+Program Header:
+    LOAD off    0x00008000 vaddr 0x08000000 paddr 0x08000000 align 2**15
+         filesz 0x00012288 memsz 0x00012288 flags rwx
+    LOAD off    0x00020800 vaddr 0x20000800 paddr 0x08012288 align 2**15
+         filesz 0x00000008 memsz 0x00006da0 flags rw-
+    LOAD off    0x00028000 vaddr 0x20000000 paddr 0x20000000 align 2**15
+         filesz 0x00000000 memsz 0x00000800 flags rw-
+private flags = 5000002: [Version5 EABI] [has entry point]
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 startup       00000184  08000000  08000000  00008000  2**4
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000120f8  08000190  08000190  00008190  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .stacks       00000800  20000000  20000000  00028000  2**0
+                  ALLOC
+  3 .data         00000008  20000800  08012288  00020800  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  4 .bss          00006d98  20000808  08012290  00020808  2**3
+                  ALLOC
+  5 .debug_info   0002ccb1  00000000  00000000  00020808  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00007fa1  00000000  00000000  0004d4b9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_loc    000065ad  00000000  00000000  0005545a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_aranges 00001b48  00000000  00000000  0005ba07  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00001750  00000000  00000000  0005d54f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_line   000108af  00000000  00000000  0005ec9f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_str    00005c25  00000000  00000000  0006f54e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .comment      00000070  00000000  00000000  00075173  2**0
+                  CONTENTS, READONLY
+ 13 .ARM.attributes 00000033  00000000  00000000  000751e3  2**0
+                  CONTENTS, READONLY
+ 14 .debug_frame  000048dc  00000000  00000000  00075218  2**2
+                  CONTENTS, READONLY, DEBUGGING
+SYMBOL TABLE:
+08000000 l    d  startup	00000000 startup
+08000190 l    d  .text	00000000 .text
+20000000 l    d  .stacks	00000000 .stacks
+20000800 l    d  .data	00000000 .data
+20000808 l    d  .bss	00000000 .bss
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_loc	00000000 .debug_loc
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_ranges	00000000 .debug_ranges
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .ARM.attributes	00000000 .ARM.attributes
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    df *ABS*	00000000 vectors.c
+00000000 l    df *ABS*	00000000 crt0.c
+080001b0 l     F .text	00000024 fill32
+00000000 l    df *ABS*	00000000 chcore.c
+00000000 l    df *ABS*	00000000 chcore_v7m.c
+0800045c l       .text	00000000 _port_exit_from_isr
+00000000 l    df *ABS*	00000000 nvic.c
+00000000 l    df *ABS*	00000000 chsys.c
+200008c8 l     O .bss	0000004c mainthread.4684
+00000000 l    df *ABS*	00000000 chdebug.c
+00000000 l    df *ABS*	00000000 chvt.c
+00000000 l    df *ABS*	00000000 chschd.c
+08000c30 l     F .text	00000022 fifo_remove
+08000c60 l     F .text	00000020 dequeue
+08000df0 l     F .text	0000009e wakeup
+00000000 l    df *ABS*	00000000 chthreads.c
+08001120 l     F .text	0000001a list_remove
+00000000 l    df *ABS*	00000000 chsem.c
+08001450 l     F .text	00000028 queue_insert
+08001480 l     F .text	00000022 fifo_remove
+080014b0 l     F .text	00000022 lifo_remove
+00000000 l    df *ABS*	00000000 chmtx.c
+08001780 l     F .text	00000046 prio_insert
+080017d0 l     F .text	00000022 fifo_remove
+08001800 l     F .text	00000020 dequeue
+00000000 l    df *ABS*	00000000 chevents.c
+00000000 l    df *ABS*	00000000 chmboxes.c
+00000000 l    df *ABS*	00000000 chqueues.c
+08001ee0 l     F .text	00000028 queue_insert
+08001f10 l     F .text	00000022 fifo_remove
+08001f40 l     F .text	00000048 qwait
+00000000 l    df *ABS*	00000000 chmemcore.c
+20000d54 l     O .bss	00000004 nextmem
+20000d58 l     O .bss	00000004 endmem
+00000000 l    df *ABS*	00000000 chheap.c
+20000d60 l     O .bss	00000020 default_heap
+00000000 l    df *ABS*	00000000 hal.c
+00000000 l    df *ABS*	00000000 mac.c
+00000000 l    df *ABS*	00000000 serial.c
+08002aa0 l     F .text	00000026 write
+08002ad0 l     F .text	00000026 read
+08002b00 l     F .text	0000002a put
+08002b30 l     F .text	0000001e get
+08002b50 l     F .text	0000002a putt
+08002b80 l     F .text	0000001e gett
+08002ba0 l     F .text	00000026 writet
+08002bd0 l     F .text	00000026 readt
+08002c00 l     F .text	00000034 getflags
+08011ff0 l     O .text	00000024 vmt
+00000000 l    df *ABS*	00000000 tm.c
+20000d80 l     O .bss	00000004 measurement_offset
+08002d40 l     F .text	00000018 tm_start
+08002d60 l     F .text	00000056 tm_stop
+00000000 l    df *ABS*	00000000 hal_lld.c
+08002e40 l     F .text	0000008c hal_lld_backup_domain_init
+00000000 l    df *ABS*	00000000 mac_lld.c
+08012020 l     O .text	00000006 default_mac_address
+20000db8 l     O .bss	00000040 rd
+20000df8 l     O .bss	00000020 td
+20000e18 l     O .bss	000017d0 rb
+200025e8 l     O .bss	00000be8 tb
+08003180 l     F .text	00000048 mii_write
+080031d0 l     F .text	00000046 mii_read
+08003220 l     F .text	000000d0 mac_lld_set_address
+00000000 l    df *ABS*	00000000 serial_lld.c
+08003c90 l     F .text	0000009c set_error
+08003d30 l     F .text	000001a2 serve_interrupt
+08003ee0 l     F .text	00000024 notify1
+00000000 l    df *ABS*	00000000 pal_lld.c
+08003f60 l     F .text	00000042 initgpio
+00000000 l    df *ABS*	00000000 board.c
+00000000 l    df *ABS*	00000000 lwipthread.c
+080040d0 l     F .text	00000024 low_level_init
+08004100 l     F .text	0000007c low_level_output
+08004180 l     F .text	000000d6 low_level_input
+08004260 l     F .text	0000004c ethernetif_init
+20003500 l     O .bss	00000030 thisif.6904
+08012130 l     O .text	00000004 mac_config.6905
+00000000 l    df *ABS*	00000000 sys_arch.c
+00000000 l    df *ABS*	00000000 etharp.c
+20003530 l     O .bss	000000a0 arp_table
+200035d0 l     O .bss	00000001 etharp_cached_entry
+080049d0 l     F .text	00000068 free_entry
+08004b20 l     F .text	00000300 find_entry
+08004e20 l     F .text	00000074 etharp_send_ip
+08004ea0 l     F .text	0000013a update_arp_entry
+08004fe0 l     F .text	00000288 etharp_arp_input
+08005700 l     F .text	000001ac etharp_raw
+00000000 l    df *ABS*	00000000 init.c
+00000000 l    df *ABS*	00000000 mem.c
+20003c28 l     O .bss	00000004 ram
+20003c2c l     O .bss	00000004 ram_end
+20003c30 l     O .bss	00000004 lfree
+20003c34 l     O .bss	00000004 mem_mutex
+08005a50 l     F .text	00000134 plug_holes
+00000000 l    df *ABS*	00000000 memp.c
+20003c38 l     O .bss	00000038 memp_tab
+08012160 l     O .text	0000001c memp_sizes
+08012180 l     O .text	0000001c memp_num
+20003c70 l     O .bss	0000316f memp_memory
+00000000 l    df *ABS*	00000000 netif.c
+20006de8 l     O .bss	00000001 netifnum.5431
+00000000 l    df *ABS*	00000000 pbuf.c
+20006de9 l     O .bss	00000001 pbuf_free_ooseq_queued
+08006a10 l     F .text	0000004e pbuf_free_ooseq
+08006a60 l     F .text	00000054 pbuf_pool_is_empty
+00000000 l    df *ABS*	00000000 raw.c
+20006dec l     O .bss	00000004 raw_pcbs
+00000000 l    df *ABS*	00000000 stats.c
+00000000 l    df *ABS*	00000000 tcp.c
+20006f58 l     O .bss	00000001 tcp_timer
+080077c0 l     F .text	000002ec tcp_close_shutdown
+08008030 l     F .text	00000098 tcp_new_port
+08007d90 l     F .text	00000018 tcp_accept_null
+20000804 l     O .data	00000002 port.5810
+08008800 l     F .text	00000094 tcp_kill_prio
+080088a0 l     F .text	00000066 tcp_kill_timewait
+20000800 l     O .data	00000004 iss.5946
+00000000 l    df *ABS*	00000000 tcp_in.c
+20006f5c l     O .bss	00000010 inseg
+20006f6c l     O .bss	00000004 tcphdr
+20006f70 l     O .bss	00000004 iphdr
+20006f74 l     O .bss	00000004 seqno
+20006f78 l     O .bss	00000004 ackno
+20006f7c l     O .bss	00000001 flags
+20006f7e l     O .bss	00000002 tcplen
+20006f80 l     O .bss	00000001 recv_flags
+20006f84 l     O .bss	00000004 recv_data
+08009930 l     F .text	00000116 tcp_timewait_input
+08009740 l     F .text	000001e8 tcp_listen_input
+08009a50 l     F .text	00000906 tcp_process
+0800b690 l     F .text	0000015c tcp_parseopt
+0800a460 l     F .text	00001226 tcp_receive
+0800a360 l     F .text	000000fa tcp_oos_insert_segment
+00000000 l    df *ABS*	00000000 tcp_out.c
+0800b7f0 l     F .text	00000102 tcp_output_alloc_header
+0800b980 l     F .text	00000146 tcp_create_segment
+0800bad0 l     F .text	000000d4 tcp_pbuf_prealloc
+0800bbb0 l     F .text	000000f4 tcp_write_checks
+0800c8f0 l     F .text	000001a4 tcp_output_segment
+00000000 l    df *ABS*	00000000 udp.c
+00000000 l    df *ABS*	00000000 icmp.c
+0800d950 l     F .text	00000100 icmp_send_response
+00000000 l    df *ABS*	00000000 inet_chksum.c
+0800da50 l     F .text	000000de lwip_standard_chksum
+00000000 l    df *ABS*	00000000 ip.c
+20006fa0 l     O .bss	00000002 ip_id
+00000000 l    df *ABS*	00000000 ip_addr.c
+00000000 l    df *ABS*	00000000 ip_frag.c
+20006fa4 l     O .bss	00000004 reassdatagrams
+20006fa8 l     O .bss	00000002 ip_reass_pbufcount
+0800e5a0 l     F .text	00000148 ip_reass_free_complete_datagram
+0800e870 l     F .text	00000048 ip_reass_dequeue_datagram
+0800e6f0 l     F .text	000000c0 ip_reass_remove_oldest_datagram
+0800e7b0 l     F .text	000000b4 ip_reass_enqueue_new_datagram
+0800e8c0 l     F .text	00000292 ip_reass_chain_frag_into_datagram_and_validate
+0800eec0 l     F .text	00000010 ip_frag_alloc_pbuf_custom_ref
+0800eed0 l     F .text	0000001e ip_frag_free_pbuf_custom_ref
+0800eef0 l     F .text	0000003c ipfrag_free_pbuf_custom
+00000000 l    df *ABS*	00000000 def.c
+00000000 l    df *ABS*	00000000 timers.c
+20006fac l     O .bss	00000004 next_timeout
+20006fb0 l     O .bss	00000004 tcpip_tcp_timer_active
+0800f290 l     F .text	0000004e tcpip_tcp_timer
+0800f330 l     F .text	00000022 ip_reass_timer
+0800f360 l     F .text	00000022 arp_timer
+00000000 l    df *ABS*	00000000 api_lib.c
+0800f920 l     F .text	00000142 netconn_recv_data
+0800fc00 l     F .text	00000060 netconn_close_shutdown
+00000000 l    df *ABS*	00000000 api_msg.c
+0800fc80 l     F .text	000000f0 recv_raw
+0800fd70 l     F .text	000000d4 recv_udp
+0800fe50 l     F .text	000000da recv_tcp
+0800ff30 l     F .text	00000092 poll_tcp
+08010cd0 l     F .text	00000272 do_writemore
+080106b0 l     F .text	00000232 do_close_internal
+0800ffd0 l     F .text	00000092 sent_tcp
+08010070 l     F .text	00000144 err_tcp
+080101c0 l     F .text	00000054 setup_tcp
+08010220 l     F .text	000000c2 accept_function
+080102f0 l     F .text	000000fa pcb_new
+080105a0 l     F .text	0000010c netconn_drain
+00000000 l    df *ABS*	00000000 netbuf.c
+00000000 l    df *ABS*	00000000 sockets.c
+00000000 l    df *ABS*	00000000 tcpip.c
+20006fb4 l     O .bss	00000004 tcpip_init_done
+20006fb8 l     O .bss	00000004 tcpip_init_done_arg
+20006fbc l     O .bss	00000004 mbox
+080111a0 l     F .text	00000118 tcpip_thread
+00000000 l    df *ABS*	00000000 evtimer.c
+080114b0 l     F .text	0000004e tmrcb
+00000000 l    df *ABS*	00000000 web.c
+080121d0 l     O .text	0000002d http_html_hdr
+08012200 l     O .text	00000086 http_index_html
+08011550 l     F .text	000000ae http_server_serve
+00000000 l    df *ABS*	00000000 main.c
+20007470 l     O .bss	00000130 waThread1
+08011680 l     F .text	00000048 Thread1
+00000000 l    df *ABS*	00000000 memcpy.c
+00000000 l    df *ABS*	00000000 memset.c
+00000000 l    df *ABS*	00000000 chlists.c
+00000000 l    df *ABS*	00000000 chdynamic.c
+00000000 l    df *ABS*	00000000 chregistry.c
+00000000 l    df *ABS*	00000000 chcond.c
+00000000 l    df *ABS*	00000000 chmsg.c
+00000000 l    df *ABS*	00000000 chmempools.c
+00000000 l    df *ABS*	00000000 test.c
+00000000 l    df *ABS*	00000000 testthd.c
+00000000 l    df *ABS*	00000000 testsem.c
+00000000 l    df *ABS*	00000000 testmtx.c
+00000000 l    df *ABS*	00000000 testmsg.c
+00000000 l    df *ABS*	00000000 testmbox.c
+00000000 l    df *ABS*	00000000 testevt.c
+00000000 l    df *ABS*	00000000 testheap.c
+00000000 l    df *ABS*	00000000 testpools.c
+00000000 l    df *ABS*	00000000 testdyn.c
+00000000 l    df *ABS*	00000000 testqueues.c
+00000000 l    df *ABS*	00000000 testbmk.c
+00000000 l    df *ABS*	00000000 adc.c
+00000000 l    df *ABS*	00000000 can.c
+00000000 l    df *ABS*	00000000 ext.c
+00000000 l    df *ABS*	00000000 gpt.c
+00000000 l    df *ABS*	00000000 i2c.c
+00000000 l    df *ABS*	00000000 icu.c
+00000000 l    df *ABS*	00000000 mmc_spi.c
+00000000 l    df *ABS*	00000000 mmcsd.c
+00000000 l    df *ABS*	00000000 pal.c
+00000000 l    df *ABS*	00000000 pwm.c
+00000000 l    df *ABS*	00000000 rtc.c
+00000000 l    df *ABS*	00000000 sdc.c
+00000000 l    df *ABS*	00000000 serial_usb.c
+00000000 l    df *ABS*	00000000 spi.c
+00000000 l    df *ABS*	00000000 uart.c
+00000000 l    df *ABS*	00000000 usb.c
+00000000 l    df *ABS*	00000000 stm32_dma.c
+00000000 l    df *ABS*	00000000 adc_lld.c
+00000000 l    df *ABS*	00000000 ext_lld_isr.c
+00000000 l    df *ABS*	00000000 can_lld.c
+00000000 l    df *ABS*	00000000 ext_lld.c
+00000000 l    df *ABS*	00000000 gpt_lld.c
+00000000 l    df *ABS*	00000000 icu_lld.c
+00000000 l    df *ABS*	00000000 pwm_lld.c
+00000000 l    df *ABS*	00000000 sdc_lld.c
+00000000 l    df *ABS*	00000000 spi_lld.c
+00000000 l    df *ABS*	00000000 i2c_lld.c
+00000000 l    df *ABS*	00000000 usb_lld.c
+00000000 l    df *ABS*	00000000 rtc_lld.c
+00000000 l    df *ABS*	00000000 uart_lld.c
+00000000 l    df *ABS*	00000000 dhcp.c
+00000000 l    df *ABS*	00000000 dns.c
+00000000 l    df *ABS*	00000000 sys.c
+00000000 l    df *ABS*	00000000 autoip.c
+00000000 l    df *ABS*	00000000 igmp.c
+00000000 l    df *ABS*	00000000 inet.c
+00000000 l    df *ABS*	00000000 err.c
+00000000 l    df *ABS*	00000000 netdb.c
+00000000 l    df *ABS*	00000000 netifapi.c
+00000000 l    df *ABS*	00000000 strlen.c
+08012030 g     O .text	000000fc pal_default_config
+08011190 g     F .text	00000002 lwip_socket_init
+08010a50 g     F .text	000000be do_bind
+20006f98 g     O .bss	00000004 current_iphdr_src
+0800dc90 g     F .text	00000026 inet_chksum
+08007640 g     F .text	00000026 raw_bind
+0800f270 g     F .text	00000014 lwip_ntohl
+080002c0  w    F .text	00000002 Vector58
+0800eb60 g     F .text	00000358 ip_reass
+080002c0  w    F .text	00000002 VectorE8
+080002c0  w    F .text	00000002 Vector9C
+08006ec0 g     F .text	0000011a pbuf_realloc
+080004a0 g     F .text	000000a6 nvicEnableVector
+08000830 g     F .text	0000003a dbg_check_lock_from_isr
+08001b40 g     F .text	00000070 chEvtSignalFlagsI
+08008cf0 g     F .text	0000002e tcp_next_iss
+080002c0  w    F .text	00000002 VectorAC
+080013b0 g     F .text	0000001c chThdExit
+08000690 g     F .text	000000ea chSysTimerHandlerI
+08001bb0 g     F .text	0000004c chEvtBroadcastFlagsI
+08000e90 g     F .text	0000006a chSchGoSleepTimeoutS
+08007f20 g     F .text	0000008a tcp_update_rcv_ann_wnd
+20006de0 g     O .bss	00000004 netif_list
+0800caa0 g     F .text	00000118 tcp_rst
+08001890 g     F .text	0000010e chMtxLockS
+080007b0 g     F .text	0000003a dbg_check_lock
+080002c0  w    F .text	00000002 Vector5C
+080058b0 g     F .text	0000004a etharp_request
+08010530 g     F .text	00000064 netconn_free
+080002c0  w    F .text	00000002 NMIVector
+08008b00 g     F .text	00000012 tcp_err
+08002670 g     F .text	00000106 chHeapFree
+0800db30 g     F .text	00000156 inet_chksum_pseudo
+080002c0  w    F .text	00000002 Vector11C
+0800d4e0 g     F .text	00000070 udp_remove
+08002a60 g     F .text	0000003a macPollLinkStatus
+0800e200 g     F .text	00000240 ip_output_if
+08011500 g     F .text	00000042 evtStart
+08006680 g     F .text	00000096 memp_free
+08007100 g     F .text	00000106 pbuf_free
+08008ac0 g     F .text	00000012 tcp_recv
+080002c0  w    F .text	00000002 Vector8C
+080108f0 g     F .text	0000015c do_delconn
+08007260 g     F .text	00000074 pbuf_cat
+080002c0  w    F .text	00000002 VectorDC
+0800e440 g     F .text	00000076 ip_output
+080002c0  w    F .text	00000002 Vector168
+0800fb70 g     F .text	00000088 netconn_write
+08000000 g     O startup	00000184 _vectors
+0800cd70 g     F .text	000000a2 tcp_keepalive
+08004a40 g     F .text	000000dc etharp_tmr
+080110e0 g     F .text	0000003c netbuf_delete
+08008910 g     F .text	00000184 tcp_alloc
+08000d60 g     F .text	0000008e chSchGoSleepS
+080002c0  w    F .text	00000002 Vector110
+08008ab0 g     F .text	00000010 tcp_arg
+0800f390 g     F .text	0000002c sys_timeouts_init
+20006f4c g     O .bss	00000004 tcp_active_pcbs
+200075a0 g       *ABS*	00000000 __heap_base__
+20006f8c g     O .bss	00000004 udp_pcbs
+08007af0 g     F .text	0000008a tcp_shutdown
+08005900 g     F .text	00000122 ethernet_input
+08012288 g       *ABS*	00000000 _etext
+080002c0  w    F .text	00000002 Vector120
+08001200 g     F .text	00000074 chThdCreateI
+08000780 g     F .text	0000002c dbg_check_enable
+08007240 g     F .text	0000001c pbuf_ref
+080068e0 g     F .text	0000001e netif_set_netmask
+08004840 g     F .text	00000052 sys_mbox_trypost
+080002c0  w    F .text	00000002 VectorC8
+080087b0 g     F .text	00000046 tcp_recv_null
+20006f90 g     O .bss	00000004 current_netif
+0800fc60 g     F .text	00000018 netconn_close
+0800c290 g     F .text	0000029c tcp_enqueue_flags
+08000f00 g     F .text	00000084 chSchWakeupS
+08007ab0 g     F .text	00000032 tcp_close
+08007fb0 g     F .text	00000076 tcp_recved
+08002cc0 g     F .text	0000007e sdIncomingDataI
+080022e0 g     F .text	00000082 chOQGetI
+08000c80 g     F .text	0000005c _scheduler_init
+08008b60 g     F .text	0000008a tcp_pcb_purge
+08000f90 g     F .text	00000028 chSchRescheduleS
+08001280 g     F .text	0000004a chThdCreateStatic
+080002c0  w    F .text	00000002 Vector94
+08001af0 g     F .text	00000046 chEvtAddFlags
+080121b0 g     O .text	00000007 tcp_persist_backoff
+080002c0  w    F .text	00000002 VectorA8
+080033a0 g     F .text	00000206 mac_lld_init
+08003800 g     F .text	00000088 mac_lld_get_transmit_descriptor
+08011750 g     F .text	00000084 memcpy
+08005c60 g     F .text	0000011a mem_free
+20006f40 g     O .bss	00000004 tcp_ticks
+20006f48 g     O .bss	00000004 tcp_listen_pcbs
+080002c0  w    F .text	00000002 VectorB4
+0800cbc0 g     F .text	00000064 tcp_rexmit_rto
+08008aa0 g     F .text	00000010 tcp_new
+08007450 g     F .text	0000010e pbuf_copy_partial
+08004550 g     F .text	00000002 sys_init
+08004660 g     F .text	00000014 sys_sem_signal
+0800f3c0 g     F .text	00000118 sys_timeout
+08000ce0 g     F .text	00000076 chSchReadyI
+08000184 g       startup	00000000 __fini_array_end
+080002d0  w    F .text	00000004 port_halt
+08001520 g     F .text	0000008c chSemResetI
+20000800 g       .stacks	00000000 __main_thread_stack_end__
+08000ab0 g     F .text	00000044 _vt_init
+0800dcc0 g     F .text	000000bc inet_chksum_pbuf
+080024c0 g     F .text	00000068 chCoreAllocI
+20006f9c g     O .bss	00000004 current_iphdr_dest
+0800d590 g     F .text	00000372 icmp_input
+08002530 g     F .text	0000003c _heap_init
+080002c0  w    F .text	00000002 Vector74
+08002780 g     F .text	00000024 halInit
+080002c0  w    F .text	00000002 Vector160
+08006730 g     F .text	000000a6 netif_add
+080002c0  w    F .text	00000002 VectorEC
+20000808 g       .bss	00000000 _bss_start
+08000fc0 g     F .text	00000080 chSchDoRescheduleBehind
+08008700 g     F .text	00000022 tcp_segs_free
+20003250 g     O .bss	000002b0 wa_lwip_thread
+080002c0  w    F .text	00000002 UsageFaultVector
+2001c000 g       *ABS*	00000000 __heap_end__
+080002c0  w    F .text	00000002 DebugMonitorVector
+08006810 g     F .text	000000ac netif_set_ipaddr
+080007f0 g     F .text	0000003a dbg_check_unlock
+080002c0  w    F .text	00000002 Vector40
+080002c0  w    F .text	00000002 VectorF8
+080002c0  w    F .text	00000002 Vector108
+0800bcb0 g     F .text	000005da tcp_write
+080001e0 g     F .text	000000d8 ResetHandler
+08002110 g     F .text	000000e0 chIQReadTimeout
+080002c0  w    F .text	00000002 VectorBC
+080002c0  w    F .text	00000002 Vector150
+080048a0 g     F .text	00000074 sys_arch_mbox_fetch
+080002c0  w    F .text	00000002 Vector124
+080027c0 g     F .text	00000044 macObjectInit
+08000340 g     F .text	00000048 _port_init
+08007c90 g     F .text	000000f2 tcp_bind
+0800d930 g     F .text	00000020 icmp_time_exceeded
+08007c70 g     F .text	00000014 tcp_abort
+0800f850 g     F .text	000000c2 netconn_accept
+08002ed0 g     F .text	00000138 hal_lld_init
+08001c70 g     F .text	0000006e chMBInit
+0800ef30 g     F .text	000002be ip_frag
+080013d0 g     F .text	00000076 chThdExitS
+08011010 g     F .text	000000ca do_close
+080027b0 g     F .text	00000008 macInit
+080002c0  w    F .text	00000002 Vector148
+080072e0 g     F .text	0000016c pbuf_copy
+0800cc30 g     F .text	00000088 tcp_rexmit
+08003af0 g     F .text	0000008a mac_lld_release_receive_descriptor
+08011120 g     F .text	00000068 netbuf_data
+08011600 g     F .text	0000007c http_server
+2000091c g     O .bss	00000408 dbg_trace_buffer
+08006920 g     F .text	00000054 netif_set_up
+080002c0  w    F .text	00000002 PendSVVector
+08002810 g     F .text	00000064 macStart
+080002c0  w    F .text	00000002 Vector118
+080121c0 g     O .text	00000010 tcp_pcb_lists
+08011440 g     F .text	00000064 tcpip_init
+08000b00 g     F .text	000000a6 chVTSetI
+080002c0  w    F .text	00000002 Vector64
+200075a0 g       .bss	00000000 _bss_end
+20000d24 g     O .bss	00000004 dbg_panic_msg
+20006f54 g     O .bss	00000004 tcp_tmp_pcb
+080001a0  w    F .text	00000002 _default_exit
+080002c0  w    F .text	00000002 VectorCC
+08004950 g     F .text	00000016 sys_mbox_valid
+08003f30 g     F .text	0000002e sd_lld_init
+08005b90 g     F .text	000000ce mem_init
+080014e0 g     F .text	00000038 chSemInit
+080002c0  w    F .text	00000002 Vector54
+080002c0  w    F .text	00000002 Vector98
+0800b900 g     F .text	00000072 tcp_send_fin
+08001da0 g     F .text	00000074 chMBPostS
+0800c5e0 g     F .text	00000304 tcp_output
+08005d80 g     F .text	000002c2 mem_trim
+080002c0  w    F .text	00000002 VectorD8
+080002c0  w    F .text	00000002 Vector138
+0800f7f0 g     F .text	00000058 netconn_listen_with_backlog
+20006f88 g     O .bss	00000004 tcp_input_pcb
+08007560 g     F .text	000000de raw_input
+080002c0  w    F .text	00000002 Vector24
+08000970 g     F .text	0000002c chDbgCheckClassI
+08001860 g     F .text	00000028 chMtxLock
+0800c530 g     F .text	000000a8 tcp_send_empty_ack
+0800ccc0 g     F .text	000000b0 tcp_rexmit_fast
+08004560 g     F .text	000000b8 sys_sem_new
+08002940 g     F .text	00000022 macReleaseTransmitDescriptor
+08001100 g     F .text	00000020 chSchDoReschedule
+080005e0 g     F .text	000000a6 chSysInit
+0800e4c0 g     F .text	0000007c ip4_addr_isbroadcast
+08006900 g     F .text	00000014 netif_set_default
+080002c0  w    F .text	00000002 Vector178
+0800d4c0 g     F .text	00000018 udp_recv
+08001370 g     F .text	0000003e chThdSleep
+08001f90 g     F .text	00000050 chIQInit
+08002880 g     F .text	000000c0 macWaitTransmitDescriptor
+080035b0 g     F .text	0000024a mac_lld_start
+080002c0  w    F .text	00000002 Vector84
+0800f580 g     F .text	000000e8 sys_timeouts_mbox_fetch
+08006ac0 g     F .text	00000304 pbuf_alloc
+08006980 g     F .text	00000056 netif_set_link_up
+080047b0 g     F .text	0000006c sys_mbox_free
+080002e0 g     F .text	0000002c SysTickVector
+0800f740 g     F .text	0000003a netconn_delete
+20000914 g     O .bss	00000004 dbg_isr_cnt
+08003010 g     F .text	0000016a stm32_clock_init
+0800e540 g     F .text	00000056 ip_reass_tmr
+08003fb0 g     F .text	000000f2 _pal_lld_init
+08002c40 g     F .text	00000008 sdInit
+080002c0  w    F .text	00000002 BusFaultVector
+08010420 g     F .text	00000108 netconn_alloc
+20006f94 g     O .bss	00000004 current_header
+20000d84 g     O .bss	00000034 ETHD1
+080002c0  w    F .text	00000002 VectorD0
+080067e0 g     F .text	00000028 netif_set_addr
+08002450 g     F .text	00000036 _core_init
+08006500 g     F .text	00000176 memp_malloc
+0800ce20 g     F .text	00000162 tcp_zero_window_probe
+08003b80 g     F .text	00000110 mac_lld_poll_link_status
+08010f50 g     F .text	000000b8 do_write
+080002c0  w    F .text	00000002 Vector140
+080002c0  w    F .text	00000002 VectorE4
+080002c0  w    F .text	00000002 VectorC0
+0800f1f0 g     F .text	0000002a lwip_htons
+080002c0  w    F .text	00000002 Vector158
+080002c0  w    F .text	00000002 Vector130
+08000460 g     F .text	00000014 _port_switch
+0001c000 g       *ABS*	00000000 __ram_size__
+08004970 g     F .text	00000010 sys_mbox_set_invalid
+08001e60 g     F .text	0000007c chMBFetchS
+20006f44 g     O .bss	00000004 tcp_bound_pcbs
+08000310 g     F .text	00000026 SVCallVector
+08004620 g     F .text	0000003a sys_sem_free
+08000190  w    F .text	00000002 __late_init
+08008730 g     F .text	0000002c tcp_seg_free
+08000a90 g     F .text	0000001a chDbgPanic
+20000d28 g     O .bss	00000010 vtlist
+080002c0  w    F .text	00000002 HardFaultVector
+08000390 g     F .text	000000c0 _port_irq_epilogue
+080032f0 g     F .text	000000ac Vector134
+08002490 g     F .text	00000030 chCoreAlloc
+08006050 g     F .text	0000033c mem_malloc
+08002570 g     F .text	000000f6 chHeapAlloc
+080009a0 g     F .text	0000002c chDbgCheckClassS
+080002c0  w    F .text	00000002 VectorF0
+080002c0  w    F .text	00000002 Vector12C
+080069e0 g     F .text	00000028 netif_set_link_down
+08003910 g     F .text	00000098 mac_lld_release_transmit_descriptor
+080002c0  w    F .text	00000002 Vector13C
+08008d20 g     F .text	0000004c tcp_eff_send_mss
+080002c0  w    F .text	00000002 Vector100
+08000910 g     F .text	00000054 dbg_check_leave_isr
+08012288 g       *ABS*	00000000 _textdata
+080002c0  w    F .text	00000002 VectorE0
+00000000 g       *ABS*	00000000 _text
+080002c0  w    F .text	00000002 VectorF4
+080002c0  w    F .text	00000002 MemManageVector
+08000184 g       startup	00000000 __fini_array_start
+080042b0 g     F .text	000002a0 lwip_thread
+08004720 g     F .text	0000008e sys_mbox_new
+080117e0 g     F .text	0000008e memset
+080116d0 g     F .text	0000007c main
+080002c0  w    F .text	00000002 Vector6C
+20000d38 g     O .bss	0000001c rlist
+080002c0  w    F .text	00000002 VectorA0
+0800d910 g     F .text	00000020 icmp_dest_unreach
+08001e20 g     F .text	00000038 chMBFetch
+08008ae0 g     F .text	00000012 tcp_sent
+080008b0 g     F .text	00000054 dbg_check_enter_isr
+0800f240 g     F .text	00000030 lwip_htonl
+08001670 g     F .text	0000008c chSemSignal
+08000184 g       startup	00000000 __init_array_end
+08007700 g     F .text	00000062 raw_new
+080002c0  w    F .text	00000002 VectorC4
+080002c0  w    F .text	00000002 Vector7C
+080002c0  w    F .text	00000002 Vector180
+08001820 g     F .text	00000032 chMtxInit
+0800f670 g     F .text	000000ca netconn_new_with_proto_and_callback
+080005c0 g     F .text	0000001a _idle_thread
+08002370 g     F .text	000000e0 chOQWriteTimeout
+08007690 g     F .text	00000070 raw_remove
+080002c0  w    F .text	00000002 VectorB0
+0800d380 g     F .text	0000013a udp_bind
+08007780 g     F .text	0000003a tcp_tmr
+080002c0  w    F .text	00000002 Vector90
+08005430 g     F .text	000002c2 etharp_query
+20000918 g     O .bss	00000004 dbg_lock_cnt
+08005a30 g     F .text	00000020 lwip_init
+08004980 g     F .text	0000004a sys_thread_new
+080002c0  w    F .text	00000002 Vector114
+20000000 g       *ABS*	00000000 __ram_start__
+08005270 g     F .text	000001b2 etharp_output
+08000480 g     F .text	00000018 _port_thread_start
+080002c0  w    F .text	00000002 Vector164
+080002c0  w    F .text	00000002 Vector60
+080002c0  w    F .text	00000002 Vector1C
+08001040 g     F .text	000000b4 chSchDoRescheduleAhead
+080113e0 g     F .text	00000058 tcpip_apimsg
+080002c0  w    F .text	00000002 Vector17C
+08006dd0 g     F .text	000000f0 pbuf_alloced_custom
+080068c0 g     F .text	0000001e netif_set_gw
+08007210 g     F .text	00000030 pbuf_clen
+080002c0  w    F .text	00000002 Vector48
+08003a70 g     F .text	00000074 mac_lld_read_receive_descriptor
+20000400 g       .stacks	00000000 __process_stack_base__
+08004710 g     F .text	00000010 sys_sem_set_invalid
+080002c0  w    F .text	00000002 Vector16C
+08007670 g     F .text	00000018 raw_recv
+08001ce0 g     F .text	00000076 chMBReset
+08004680 g     F .text	00000070 sys_arch_sem_wait
+080002c0  w    F .text	00000002 Vector70
+080080d0 g     F .text	00000546 tcp_slowtmr
+08003f10 g     F .text	0000001c VectorD4
+08000550 g     F .text	00000062 nvicSetSystemHandlerPriority
+20000808 g     O .bss	000000c0 _idle_thread_wa
+080021f0 g     F .text	0000004e chOQInit
+08002070 g     F .text	0000009a chIQGetTimeout
+20000800 g       .data	00000000 _data
+08002a30 g     F .text	00000022 macReleaseReceiveDescriptor
+08008b20 g     F .text	00000010 tcp_accept
+08010b10 g     F .text	00000134 do_listen
+080002c0  w    F .text	00000002 Vector4C
+080002c0  w    F .text	00000002 Vector144
+080002c0  w    F .text	00000002 Vector80
+08001fe0 g     F .text	00000088 chIQPutI
+08000450 g     F .text	0000000e _port_switch_from_isr
+080039b0 g     F .text	000000be mac_lld_get_receive_descriptor
+08002dc0 g     F .text	0000003a tmInit
+080002c0  w    F .text	00000002 Vector15C
+080002c0  w    F .text	00000002 Vector68
+080019a0 g     F .text	000000e6 chMtxUnlock
+080112c0 g     F .text	0000007c tcpip_input
+0800f220 g     F .text	0000001c lwip_ntohs
+080009d0 g     F .text	00000020 _trace_init
+20006f50 g     O .bss	00000004 tcp_tw_pcbs
+20000400 g       .stacks	00000000 __main_stack_end__
+080002c0  w    F .text	00000002 Vector78
+0800cf90 g     F .text	000003e2 udp_input
+2001c000 g       *ABS*	00000000 __ram_end__
+20000808 g       .data	00000000 _edata
+200075a0 g       *ABS*	00000000 _end
+08006720 g     F .text	00000002 netif_init
+08001c00 g     F .text	0000006a chEvtWaitAny
+08000bb0 g     F .text	00000072 chVTResetI
+0800dd80 g     F .text	000000a0 ip_route
+080002c0 g     F .text	00000002 _unhandled_exception
+08007db0 g     F .text	00000162 tcp_listen_with_backlog
+20006df0 g     O .bss	00000150 lwip_stats
+080002c0  w    F .text	00000002 Vector170
+08002c50 g     F .text	00000070 sdObjectInit
+08010c50 g     F .text	00000074 do_recv
+08006fe0 g     F .text	00000118 pbuf_header
+20006de4 g     O .bss	00000004 netif_default
+08008bf0 g     F .text	000000f4 tcp_pcb_remove
+08001d60 g     F .text	00000038 chMBPost
+080002c0  w    F .text	00000002 Vector88
+08001a90 g     F .text	00000060 chEvtRegisterMask
+20006fc0 g     O .bss	000004b0 wa_http_server
+08007b80 g     F .text	000000ec tcp_abandon
+08003890 g     F .text	00000076 mac_lld_write_transmit_descriptor
+08002e00 g     F .text	00000038 tmObjectInit
+20000400 g       .stacks	00000000 __main_thread_stack_base__
+0800f2e0 g     F .text	00000050 tcp_timer_needed
+08006390 g     F .text	00000170 memp_init
+08008620 g     F .text	000000de tcp_fasttmr
+080002c0  w    F .text	00000002 Vector104
+0800f780 g     F .text	00000066 netconn_bind
+080002c0  w    F .text	00000002 Vector10C
+080009f0 g     F .text	00000094 dbg_trace
+080012d0 g     F .text	00000094 chThdSetPriority
+08000184 g       startup	00000000 __init_array_start
+200031d0 g     O .bss	0000007c SD1
+08002970 g     F .text	000000c0 macWaitReceiveDescriptor
+08008760 g     F .text	00000046 tcp_seg_copy
+080002c0  w    F .text	00000002 Vector14C
+08001140 g     F .text	000000be _thread_init
+080002c0  w    F .text	00000002 Vector50
+08008b30 g     F .text	00000022 tcp_poll
+200035d4 g     O .bss	00000654 ram_heap
+0800d550 g     F .text	0000003a udp_new
+080002c0  w    F .text	00000002 Vector154
+080046f0 g     F .text	00000016 sys_sem_valid
+08002240 g     F .text	0000009e chOQPutTimeout
+08012140 g     O .text	00000006 ethbroadcast
+20000000 g       .stacks	00000000 __main_stack_base__
+080121a0 g     O .text	0000000d tcp_backoff
+080002c0  w    F .text	00000002 Vector44
+080002c0  w    F .text	00000002 Vector28
+080040c0 g     F .text	00000002 boardInit
+080002c0  w    F .text	00000002 VectorB8
+00000400 g       *ABS*	00000000 __main_stack_size__
+08004920 g     F .text	00000030 sys_arch_mbox_tryfetch
+080002c0  w    F .text	00000002 VectorFC
+0800fa70 g     F .text	000000f8 netconn_recv
+08000870 g     F .text	0000003a dbg_check_unlock_from_isr
+080103f0 g     F .text	00000030 do_newconn
+08004820 g     F .text	0000001e sys_mbox_post
+20000800 g       .stacks	00000000 __process_stack_end__
+080002c0  w    F .text	00000002 Vector34
+080040b0 g     F .text	00000008 __early_init
+08001700 g     F .text	0000007e chSemSignalI
+0800f4e0 g     F .text	0000009a sys_untimeout
+08008d70 g     F .text	000009ce tcp_input
+080002c0  w    F .text	00000002 Vector128
+080002c0  w    F .text	00000002 VectorA4
+0800de20 g     F .text	000003dc ip_input
+00000400 g       *ABS*	00000000 __process_stack_size__
+08012150 g     O .text	00000006 ethzero
+08007770 g     F .text	00000002 stats_init
+080002c0  w    F .text	00000002 Vector20
+080015b0 g     F .text	000000b4 chSemWaitTimeoutS
+08011340 g     F .text	0000009a tcpip_callback_with_block
+080002c0  w    F .text	00000002 Vector174
+
+
