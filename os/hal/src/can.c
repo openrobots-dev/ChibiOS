@@ -72,14 +72,18 @@ void canInit(void) {
  */
 void canObjectInit(CANDriver *canp) {
 
-  canp->state    = CAN_STOP;
-  canp->config   = NULL;
+  canp->state = CAN_STOP;
+  canp->config = NULL;
+#if CAN_USE_WAIT
   chSemInit(&canp->txsem, 0);
   chSemInit(&canp->rxsem, 0);
-  chEvtInit(&canp->rxfull_event);
-  chEvtInit(&canp->txempty_event);
+#endif /* CAN_USE_WAIT */
+#if CAN_USE_EVENTS
+  chEvtInit(&canp->rx_event);
+  chEvtInit(&canp->tx_event);
   chEvtInit(&canp->error_event);
-#if CAN_USE_SLEEP_MODE
+#endif /* CAN_USE_EVENTS */
+#if (CAN_USE_SLEEP_MODE && CAN_USE_EVENTS)
   chEvtInit(&canp->sleep_event);
   chEvtInit(&canp->wakeup_event);
 #endif /* CAN_USE_SLEEP_MODE */
@@ -131,13 +135,226 @@ void canStop(CANDriver *canp) {
   chDbgAssert((canp->state == CAN_STOP) || (canp->state == CAN_READY),
               "canStop(), #1", "invalid state");
   can_lld_stop(canp);
+#if CAN_USE_WAIT
   chSemResetI(&canp->rxsem, 0);
   chSemResetI(&canp->txsem, 0);
   chSchRescheduleS();
-  canp->state  = CAN_STOP;
+#endif /* CAN_USE_WAIT */
+  canp->state = CAN_STOP;
   chSysUnlock();
 }
 
+/**
+ * @brief   CAN frame transmission.
+ * @details This asynchronous function enqueues a frame for transmission.
+ * @post    When the transmission is completed the configured callback is invoked.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object
+ * @param[in] ctfp      pointer to the CAN frame to be transmitted
+ *                      .
+ * @return              The operation status.
+ * @retval TRUE         The frame was successfully enqueued
+ * @retval FALSE        The frame was not enqueued.
+ *
+ * @api
+ */
+bool_t canTryTransmit(CANDriver *canp, CANTxFrame *ctfp) {
+  bool_t ret;
+
+  chSysLock();
+  ret = canTryTransmitI(canp, ctfp);
+  chSysUnlock();
+
+  return ret;
+}
+
+/**
+ * @brief   CAN frame transmission.
+ * @details This asynchronous function enqueues a frame for transmission.
+ * @post    When the transmission is completed the configured callback is invoked.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object
+ * @param[in] ctfp      pointer to the CAN frame to be transmitted
+ *                      .
+ * @return              The operation status.
+ * @retval TRUE         The frame was successfully enqueued
+ * @retval FALSE        The frame was not enqueued.
+ *
+ * @iclass
+ */
+bool_t canTryTransmitI(CANDriver *canp, CANTxFrame *ctfp) {
+
+  chDbgCheckClassI();
+  chDbgCheck((canp != NULL) && (ctfp != NULL), "canTransmitI");
+  chDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
+              "canTryTransmitI(), #1", "invalid state");
+
+  if ((canp->state == CAN_SLEEP) || !can_lld_can_transmit(canp))
+    return FALSE;
+
+  can_lld_transmit(canp, ctfp);
+  return TRUE;
+}
+
+/**
+ * @brief   Aborts an enqueued transmission.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object
+ * @param[in] mbx       transmit mailbox to abort
+ *
+ * @api
+ */
+void canAbortTransmission(CANDriver *canp, uint32_t mbox) {
+
+  chSysLock();
+  canAbortTransmissionI(canp, mbox);
+  chSysUnlock();
+}
+
+/**
+ * @brief   Aborts an enqueued transmission.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object
+ * @param[in] mbx       transmit mailbox to abort
+ *
+ * @iclass
+ */
+void canAbortTransmissionI(CANDriver *canp, uint32_t mbox) {
+
+  chDbgCheckClassI();
+// FIXME
+//  chDbgCheck((canp != NULL) && (mbox < CAN_TX_MBOX_COUNT),
+//             "canAbortTransmissionI");
+  chDbgCheck((canp != NULL), "canAbortTransmissionI");
+  chDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
+              "canAbortTransmissionI(), #1", "invalid state");
+
+  can_lld_abort_transmit(canp, mbox);
+}
+
+/**
+ * @brief   CAN frame receive.
+ * @details This asynchronous function retrives a frame from the receive FIFO.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object
+ * @param[in] crfp      pointer to the buffer where the CAN frame is copied
+ *                      .
+ * @return              The operation status.
+ * @retval TRUE         The frame was successfully retrivied
+ * @retval FALSE        No frame to retrive.
+ *
+ * @api
+ */
+bool_t canTryReceive(CANDriver *canp, CANRxFrame *crfp) {
+  bool_t ret;
+
+  chSysLock();
+  ret = canTryReceiveI(canp, crfp);
+  chSysUnlock();
+
+  return ret;
+}
+
+/**
+ * @brief   CAN frame receive.
+ * @details This asynchronous function retrives a frame from the receive FIFO.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object
+ * @param[in] crfp      pointer to the buffer where the CAN frame is copied
+ *                      .
+ * @return              The operation status.
+ * @retval TRUE         The frame was successfully retrivied
+ * @retval FALSE        No frame to retrive.
+ *
+ * @iclass
+ */
+bool_t canTryReceiveI(CANDriver *canp, CANRxFrame *crfp) {
+
+  chDbgCheckClassI();
+  chDbgCheck((canp != NULL) && (crfp != NULL), "canReceiveI");
+  chDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
+              "canTryReceiveI(), #1", "invalid state");
+
+  if ((canp->state == CAN_SLEEP) || !can_lld_can_receive(canp))
+    return FALSE;
+
+  can_lld_receive(canp, crfp);
+  return TRUE;
+}
+
+/**
+ * @brief   Sets CAN filters.
+ * @details Configures hardware filters of the CAN interface.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object
+ * @param[in] crfp      pointer to an array of @p CANFilter structures
+ * @param[in] num       number of elements into the filters array
+ *
+ * @api
+ */
+void canSetFilters(CANDriver *canp, CANFilter *filters, uint32_t num) {
+
+  chSysLock();
+  canSetFiltersI(canp, filters, num);
+  chSysUnlock();
+}
+
+/**
+ * @brief   Sets CAN filters.
+ * @details Configures hardware filters of the CAN interface.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object
+ * @param[in] crfp      pointer to an array of @p CANFilter structures
+ * @param[in] num       number of elements into the filters array
+ *
+ * @iclass
+ */
+void canSetFiltersI(CANDriver *canp, CANFilter *filters, uint32_t num) {
+
+  chDbgCheckClassI();
+  chDbgCheck((canp != NULL), "canSetFilterI");
+  chDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
+              "canSetFilterI(), #1", "invalid state");
+
+  can_lld_set_filters(canp, filters, num);
+}
+
+/**
+ * @brief   Clears all CAN filters.
+ * @details Configures a default pass-through hardware filter on the CAN
+ *          interface.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object
+ *
+ * @api
+ */
+void canClearFilters(CANDriver *canp) {
+
+  chSysLock();
+  canClearFiltersI(canp);
+  chSysUnlock();
+}
+
+/**
+ * @brief   Clears all CAN filters.
+ * @details Configures a default pass-through hardware filter on the CAN
+ *          interface.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object
+ *
+ * @iclass
+ */
+void canClearFiltersI(CANDriver *canp) {
+
+  chDbgCheckClassI();
+  chDbgCheck((canp != NULL), "canClearFiltersI");
+  chDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
+              "canClearFiltersI(), #1", "invalid state");
+
+  can_lld_clear_filters(canp);
+}
+
+#if CAN_USE_WAIT
 /**
  * @brief   Can frame transmission.
  * @details The specified frame is queued for transmission, if the hardware
@@ -158,14 +375,12 @@ void canStop(CANDriver *canp) {
  *
  * @api
  */
-msg_t canTransmit(CANDriver *canp, const CANTxFrame *ctfp, systime_t timeout) {
-
-  chDbgCheck((canp != NULL) && (ctfp != NULL), "canTransmit");
+msg_t canTransmitTimeout(CANDriver *canp, CANTxFrame *ctfp, systime_t timeout) {
 
   chSysLock();
   chDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
               "canTransmit(), #1", "invalid state");
-  while ((canp->state == CAN_SLEEP) || !can_lld_can_transmit(canp)) {
+  while (!canTryTransmitI(canp, ctfp)) {
     msg_t msg = chSemWaitTimeoutS(&canp->txsem, timeout);
     if (msg != RDY_OK) {
       chSysUnlock();
@@ -198,14 +413,12 @@ msg_t canTransmit(CANDriver *canp, const CANTxFrame *ctfp, systime_t timeout) {
  *
  * @api
  */
-msg_t canReceive(CANDriver *canp, CANRxFrame *crfp, systime_t timeout) {
-
-  chDbgCheck((canp != NULL) && (crfp != NULL), "canReceive");
+msg_t canReceiveTimeout(CANDriver *canp, CANRxFrame *crfp, systime_t timeout) {
 
   chSysLock();
   chDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
               "canReceive(), #1", "invalid state");
-  while ((canp->state == CAN_SLEEP) || !can_lld_can_receive(canp)) {
+  while (!canTryReceiveI(canp, crfp)) {
     msg_t msg = chSemWaitTimeoutS(&canp->rxsem, timeout);
     if (msg != RDY_OK) {
       chSysUnlock();
@@ -216,6 +429,7 @@ msg_t canReceive(CANDriver *canp, CANRxFrame *crfp, systime_t timeout) {
   chSysUnlock();
   return RDY_OK;
 }
+#endif /* CAN_USE_WAIT */
 
 #if CAN_USE_SLEEP_MODE || defined(__DOXYGEN__)
 /**
@@ -240,8 +454,12 @@ void canSleep(CANDriver *canp) {
   if (canp->state == CAN_READY) {
     can_lld_sleep(canp);
     canp->state = CAN_SLEEP;
+#if CAN_USE_EVENTS
     chEvtBroadcastI(&canp->sleep_event);
+#endif
+#if CAN_USE_WAIT || CAN_USE_EVENTS
     chSchRescheduleS();
+#endif
   }
   chSysUnlock();
 }
@@ -263,8 +481,12 @@ void canWakeup(CANDriver *canp) {
   if (canp->state == CAN_SLEEP) {
     can_lld_wakeup(canp);
     canp->state = CAN_READY;
+#if CAN_USE_EVENTS
     chEvtBroadcastI(&canp->wakeup_event);
+#endif
+#if CAN_USE_WAIT || CAN_USE_EVENTS
     chSchRescheduleS();
+#endif
   }
   chSysUnlock();
 }

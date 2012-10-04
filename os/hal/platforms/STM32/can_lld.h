@@ -112,9 +112,51 @@
 /*===========================================================================*/
 
 /**
+ * @brief   Type of a structure representing an CAN driver.
+ */
+typedef struct CANDriver CANDriver;
+
+/**
+ * @brief   CAN TX mailbox identifier.
+ */
+typedef uint32_t canmbox_t;
+
+/**
+ * @brief   CAN TX status flags.
+ */
+typedef uint32_t cantxflags_t;
+
+/**
+ * @brief   CAN TXnotification callback type.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object triggering the
+ *                      callback
+ * @param[in] mb        mailbox number
+ */
+typedef void (*cantxcallback_t)(CANDriver *canp, canmbox_t mb, cantxflags_t flags);
+
+/**
+ * @brief   CAN RX notification callback type.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object triggering the
+ *                      callback
+ */
+typedef void (*canrxcallback_t)(CANDriver *canp);
+
+/**
+ * @brief   CAN error notification callback type.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object triggering the
+ *                      callback
+ * @param[in] flags     error mask
+ */
+typedef void (*canerrorcallback_t)(CANDriver *canp, uint32_t flags);
+
+/**
  * @brief   CAN transmission frame.
  * @note    Accessing the frame data as word16 or word32 is not portable because
  *          machine data endianness, it can be still useful for a quick filling.
+ *          When the frame is enqueued for transmission, the driver fills the mbox field with the ID of the mailbox where it was placed.
  */
 typedef struct {
   struct {
@@ -135,7 +177,8 @@ typedef struct {
     uint16_t                data16[4];      /**< @brief Frame data.         */
     uint32_t                data32[2];      /**< @brief Frame data.         */
   };
-} CANTxFrame;
+  uint8_t                   mbox;           /**< @brief Transmit mailbox.   */
+}CANTxFrame;
 
 /**
  * @brief   CAN received frame.
@@ -205,6 +248,19 @@ typedef struct {
  */
 typedef struct {
   /**
+   * @brief Transmit complete callback or @p NULL.
+   */
+  cantxcallback_t tx_cb;
+  /**
+   * @brief Receive callback or @p NULL.
+   */
+  canrxcallback_t rx_cb;
+  /**
+   * @brief Error callback or @p NULL.
+   */
+  canerrorcallback_t error_cb;
+  /* End of the mandatory fields.*/
+  /**
    * @brief CAN MCR register initialization data.
    * @note  Some bits in this register are enforced by the driver regardless
    *        their status in this field.
@@ -216,24 +272,12 @@ typedef struct {
    *        their status in this field.
    */
   uint32_t                  btr;
-  /**
-   * @brief Number of elements into the filters array.
-   * @note  By setting this field to zero a default filter is enabled that
-   *        allows all frames, this should be adequate  for simple applications.
-   */
-  uint32_t                  num;
-  /**
-   * @brief Pointer to an array of @p CANFilter structures.
-   * @note  This field can be set to @p NULL if the field @p num is set to
-   *        zero.
-   */
-  const CANFilter           *filters;
 } CANConfig;
 
 /**
  * @brief   Structure representing an CAN driver.
  */
-typedef struct {
+struct CANDriver {
   /**
    * @brief Driver state.
    */
@@ -242,7 +286,8 @@ typedef struct {
    * @brief Current configuration data.
    */
   const CANConfig           *config;
-  /**
+#if CAN_USE_WAIT || defined(__DOXYGEN__)  
+/**
    * @brief Transmission queue semaphore.
    */
   Semaphore                 txsem;
@@ -256,19 +301,20 @@ typedef struct {
    *        until the received frames queue has been completely emptied. It
    *        is <b>not</b> broadcasted for each received frame. It is
    *        responsibility of the application to empty the queue by repeatedly
-   *        invoking @p chReceive() when listening to this event. This behavior
+   *        invoking @p canReceive() when listening to this event. This behavior
    *        minimizes the interrupt served by the system because CAN traffic.
    */
-  EventSource               rxfull_event;
+  EventSource               rx_event;
   /**
    * @brief One or more transmission slots become available.
    */
-  EventSource               txempty_event;
+  EventSource               tx_event;
   /**
    * @brief A CAN bus error happened.
    */
   EventSource               error_event;
-#if CAN_USE_SLEEP_MODE || defined (__DOXYGEN__)
+#endif /* CAN_USE_EVENTS */
+#if (CAN_USE_SLEEP_MODE && CAN_USE_EVENTS) || defined (__DOXYGEN__)
   /**
    * @brief Entering sleep state event.
    */
@@ -283,7 +329,7 @@ typedef struct {
    * @brief Pointer to the CAN registers.
    */
   CAN_TypeDef               *can;
-} CANDriver;
+};
 
 /*===========================================================================*/
 /* Driver macros.                                                            */
@@ -304,9 +350,11 @@ extern "C" {
   void can_lld_start(CANDriver *canp);
   void can_lld_stop(CANDriver *canp);
   bool_t can_lld_can_transmit(CANDriver *canp);
-  void can_lld_transmit(CANDriver *canp, const CANTxFrame *crfp);
+  void can_lld_transmit(CANDriver *canp, CANTxFrame *crfp);
   bool_t can_lld_can_receive(CANDriver *canp);
   void can_lld_receive(CANDriver *canp, CANRxFrame *ctfp);
+  void can_lld_set_filters(CANDriver *canp, const CANFilter *filters, uint32_t num);
+  void can_lld_clear_filters(CANDriver *canp);
 #if CAN_USE_SLEEP_MODE
   void can_lld_sleep(CANDriver *canp);
   void can_lld_wakeup(CANDriver *canp);

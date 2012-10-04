@@ -56,18 +56,26 @@ CANDriver CAND1;
  * @brief   CAN1 TX interrupt handler.
  *
  * @isr
- */
-CH_IRQ_HANDLER(STM32_CAN1_TX_HANDLER) {
+ */CH_IRQ_HANDLER(CAN1_TX_IRQHandler) {
+	uint32_t tsr;
 
   CH_IRQ_PROLOGUE();
 
+  tsr = CAN1->TSR;
   /* No more events until a message is transmitted.*/
-  CAN1->TSR = CAN_TSR_RQCP0 | CAN_TSR_RQCP1 | CAN_TSR_RQCP2;
-  chSysLockFromIsr();
-  while (chSemGetCounterI(&CAND1.txsem) < 0)
-    chSemSignalI(&CAND1.txsem);
-  chEvtBroadcastI(&CAND1.txempty_event);
-  chSysUnlockFromIsr();
+  CAN1->TSR |= CAN_TSR_RQCP0 | CAN_TSR_RQCP1 | CAN_TSR_RQCP2;
+
+  if (tsr & CAN_TSR_RQCP0) {
+    _can_tx_isr_code(&CAND1, 0, (tsr & 0x0E) >> 1);
+  }
+
+  if (tsr & CAN_TSR_RQCP1) {
+    _can_tx_isr_code(&CAND1, 1, (tsr & 0xE00) >> 9);
+  }
+
+  if (tsr & CAN_TSR_RQCP2) {
+    _can_tx_isr_code(&CAND1, 2, (tsr & 0xE0000) >> 17);
+  }
 
   CH_IRQ_EPILOGUE();
 }
@@ -76,9 +84,8 @@ CH_IRQ_HANDLER(STM32_CAN1_TX_HANDLER) {
  * @brief   CAN1 RX0 interrupt handler.
  *
  * @isr
- */
-CH_IRQ_HANDLER(STM32_CAN1_RX0_HANDLER) {
-  uint32_t rf0r;
+ */CH_IRQ_HANDLER(CAN1_RX0_IRQHandler) {
+	uint32_t rf0r;
 
   CH_IRQ_PROLOGUE();
 
@@ -86,18 +93,17 @@ CH_IRQ_HANDLER(STM32_CAN1_RX0_HANDLER) {
   if ((rf0r & CAN_RF0R_FMP0) > 0) {
     /* No more receive events until the queue 0 has been emptied.*/
     CAN1->IER &= ~CAN_IER_FMPIE0;
-    chSysLockFromIsr();
-    while (chSemGetCounterI(&CAND1.rxsem) < 0)
-      chSemSignalI(&CAND1.rxsem);
-    chEvtBroadcastI(&CAND1.rxfull_event);
-    chSysUnlockFromIsr();
+
+    /* Portable CAN ISR code defined in the high level driver, note, it is
+     a macro.*/
+    _can_rx_isr_code(&CAND1);
   }
   if ((rf0r & CAN_RF0R_FOVR0) > 0) {
     /* Overflow events handling.*/
     CAN1->RF0R = CAN_RF0R_FOVR0;
-    chSysLockFromIsr();
-    chEvtBroadcastFlagsI(&CAND1.error_event, CAN_OVERFLOW_ERROR);
-    chSysUnlockFromIsr();
+    /* Portable CAN ISR code defined in the high level driver, note, it is
+     a macro.*/
+    _can_error_isr_code(&CAND1, CAN_OVERFLOW_ERROR);
   }
 
   CH_IRQ_EPILOGUE();
@@ -107,8 +113,7 @@ CH_IRQ_HANDLER(STM32_CAN1_RX0_HANDLER) {
  * @brief   CAN1 RX1 interrupt handler.
  *
  * @isr
- */
-CH_IRQ_HANDLER(STM32_CAN1_RX1_HANDLER) {
+ */CH_IRQ_HANDLER(CAN1_RX1_IRQHandler) {
 
   CH_IRQ_PROLOGUE();
 
@@ -121,20 +126,19 @@ CH_IRQ_HANDLER(STM32_CAN1_RX1_HANDLER) {
  * @brief   CAN1 SCE interrupt handler.
  *
  * @isr
- */
-CH_IRQ_HANDLER(STM32_CAN1_SCE_HANDLER) {
-  uint32_t msr;
+ */CH_IRQ_HANDLER(CAN1_SCE_IRQHandler) {
+	uint32_t msr;
 
   CH_IRQ_PROLOGUE();
 
   msr = CAN1->MSR;
   CAN1->MSR = CAN_MSR_ERRI | CAN_MSR_WKUI | CAN_MSR_SLAKI;
+#if CAN_USE_SLEEP_MODE
   /* Wakeup event.*/
   if (msr & CAN_MSR_WKUI) {
-    chSysLockFromIsr();
-    chEvtBroadcastI(&CAND1.wakeup_event);
-    chSysUnlockFromIsr();
+    _can_wakeup_isr_code(&CAND1);
   }
+#endif /* CAN_USE_SLEEP_MODE */
   /* Error event.*/
   if (msr & CAN_MSR_ERRI) {
     flagsmask_t flags;
@@ -144,13 +148,10 @@ CH_IRQ_HANDLER(STM32_CAN1_SCE_HANDLER) {
     flags = (flagsmask_t)(esr & 7);
     if ((esr & CAN_ESR_LEC) > 0)
       flags |= CAN_FRAMING_ERROR;
-
-    chSysLockFromIsr();
     /* The content of the ESR register is copied unchanged in the upper
        half word of the listener flags mask.*/
-    chEvtBroadcastFlagsI(&CAND1.error_event, flags | (flagsmask_t)(esr < 16));
-    chSysUnlockFromIsr();
-  }
+		_can_error_isr_code(&CAND1, flags | (flagsmask_t)(esr < 16));
+	}
 
   CH_IRQ_EPILOGUE();
 }
@@ -197,65 +198,21 @@ void can_lld_start(CANDriver *canp) {
   }
 #endif
 
-  /* Entering initialization mode. */
-  canp->state = CAN_STARTING;
-  canp->can->MCR = CAN_MCR_INRQ;
-  while ((canp->can->MSR & CAN_MSR_INAK) == 0)
-    chThdSleepS(1);
-  /* BTR initialization.*/
-  canp->can->BTR = canp->config->btr;
-  /* MCR initialization.*/
-  canp->can->MCR = canp->config->mcr;
-  /* Filters initialization.*/
-  canp->can->FMR |= CAN_FMR_FINIT;
-  if (canp->config->num > 0) {
-    uint32_t i, fmask;
-    CAN_FilterRegister_TypeDef *cfp;
-
-    canp->can->FA1R = 0;
-    canp->can->FM1R = 0;
-    canp->can->FS1R = 0;
-    canp->can->FFA1R = 0;
-    cfp = canp->can->sFilterRegister;
-    fmask = 1;
-    for (i = 0; i < STM32_CAN_MAX_FILTERS; i++) {
-      if (i < canp->config->num) {
-        if (canp->config->filters[i].mode)
-          canp->can->FM1R |= fmask;
-        if (canp->config->filters[i].scale)
-          canp->can->FS1R |= fmask;
-        if (canp->config->filters[i].assignment)
-          canp->can->FFA1R |= fmask;
-        cfp->FR1 = canp->config->filters[i].register1;
-        cfp->FR2 = canp->config->filters[i].register2;
-        canp->can->FA1R |= fmask;
-      }
-      else {
-        cfp->FR1 = 0;
-        cfp->FR2 = 0;
-      }
-      /* Gives a chance for preemption since this is a rather long loop.*/
-      chSysUnlock();
-      cfp++;
-      fmask <<= 1;
-      chSysLock();
-    }
-  }
-  else {
-    /* Setup a default filter.*/
-    canp->can->sFilterRegister[0].FR1 = 0;
-    canp->can->sFilterRegister[0].FR2 = 0;
-    canp->can->FM1R = 0;
-    canp->can->FFA1R = 0;
-    canp->can->FS1R = 1;
-    canp->can->FA1R = 1;
-  }
-  canp->can->FMR &= ~CAN_FMR_FINIT;
-  /* Interrupt sources initialization.*/
-  canp->can->IER = CAN_IER_TMEIE  | CAN_IER_FMPIE0 | CAN_IER_FMPIE1 |
-                      CAN_IER_WKUIE  | CAN_IER_ERRIE  | CAN_IER_LECIE  |
-                      CAN_IER_BOFIE  | CAN_IER_EPVIE  | CAN_IER_EWGIE  |
-                      CAN_IER_FOVIE0 | CAN_IER_FOVIE1;
+	/* Entering initialization mode. */
+	canp->state = CAN_STARTING;
+	canp->can->MCR = CAN_MCR_INRQ;
+	while ((canp->can->MSR & CAN_MSR_INAK) == 0)
+		chThdSleepS(1);
+	/* BTR initialization.*/
+	canp->can->BTR = canp->config->btr;
+	/* MCR initialization.*/
+	canp->can->MCR = canp->config->mcr;
+	/* Filters initialization.*/
+	can_lld_clear_filters(canp);
+	/* Interrupt sources initialization.*/
+	canp->can->IER = CAN_IER_TMEIE | CAN_IER_FMPIE0 | CAN_IER_FMPIE1
+			| CAN_IER_WKUIE | CAN_IER_ERRIE | CAN_IER_LECIE | CAN_IER_BOFIE
+			| CAN_IER_EPVIE | CAN_IER_EWGIE | CAN_IER_FOVIE0 | CAN_IER_FOVIE1;
 }
 
 /**
@@ -307,12 +264,12 @@ bool_t can_lld_can_transmit(CANDriver *canp) {
  *
  * @notapi
  */
-void can_lld_transmit(CANDriver *canp, const CANTxFrame *ctfp) {
-  uint32_t tir;
-  CAN_TxMailBox_TypeDef *tmbp;
+void can_lld_transmit(CANDriver *canp, CANTxFrame *ctfp) {
+	uint32_t tir;
+	CAN_TxMailBox_TypeDef *tmbp;
 
-  /* Pointer to a free transmission mailbox.*/
-  tmbp = &canp->can->sTxMailBox[(canp->can->TSR & CAN_TSR_CODE) >> 24];
+	/* Id of a free transmission mailbox.*/
+	ctfp->mbox = (canp->can->TSR & CAN_TSR_CODE) >> 24;
 
   /* Preparing the message.*/
   if (ctfp->IDE)
@@ -327,13 +284,26 @@ void can_lld_transmit(CANDriver *canp, const CANTxFrame *ctfp) {
 }
 
 /**
+ * @brief   Requests a transmission abort.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object
+ * @param[in] mbox      id of the transmission mailbox to request for abort
+ *
+ * @notapi
+ */
+void can_lld_abort_transmit(CANDriver *canp, uint32_t mbox) {
+
+	canp->can->TSR |= (CAN_TSR_ABRQ0 << (8 * mbox));
+}
+
+/**
  * @brief   Determines whether a frame has been received.
  *
  * @param[in] canp      pointer to the @p CANDriver object
  *
- * @return The queue space availability.
- * @retval FALSE        no space in the transmit queue.
- * @retval TRUE         transmit slot available.
+ * @return If a frame has been received.
+ * @retval FALSE        no frame has been received.
+ * @retval TRUE         a frame has been received.
  *
  * @notapi
  */
@@ -375,6 +345,84 @@ void can_lld_receive(CANDriver *canp, CANRxFrame *crfp) {
      events again.*/
   if ((canp->can->RF0R & CAN_RF0R_FMP0) == 0)
     canp->can->IER |= CAN_IER_FMPIE0;
+}
+
+/**
+ * @brief   Sets CAN filters.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object
+ * @param[in] crfp      pointer to an array of @p CANFilter structures
+ * @param[in] num       number of elements into the filters array
+ *
+ * @notapi
+ */
+void can_lld_set_filters(CANDriver *canp, const CANFilter *filters,
+		uint32_t num) {
+	uint32_t i, fmask;
+	CAN_FilterRegister_TypeDef * cfp;
+
+	/* Filters initialization.*/
+	canp->can->FMR |= CAN_FMR_FINIT;
+
+	canp->can->FA1R = 0;
+	canp->can->FM1R = 0;
+	canp->can->FS1R = 0;
+	canp->can->FFA1R = 0;
+
+	cfp = canp->can->sFilterRegister;
+	fmask = 1;
+
+	for (i = 0; i < STM32_CAN_MAX_FILTERS; i++) {
+		if (i < num) {
+			if (filters[i].mode)
+				canp->can->FM1R |= fmask;
+			if (filters[i].scale)
+				canp->can->FS1R |= fmask;
+			if (filters[i].assignment)
+				canp->can->FFA1R |= fmask;
+			cfp->FR1 = filters[i].register1;
+			cfp->FR2 = filters[i].register2;
+			canp->can->FA1R |= fmask;
+		} else {
+			cfp->FR1 = 0;
+			cfp->FR2 = 0;
+		}
+
+		cfp++;
+		fmask <<= 1;
+	}
+}
+
+/**
+ * @brief   Clears all filters and sets a default pass-through filter.
+ *
+ * @param[in] canp      pointer to the @p CANDriver object
+ *
+ * @notapi
+ */
+void can_lld_clear_filters(CANDriver *canp) {
+	uint32_t i;
+
+	/* Filters initialization.*/
+	canp->can->FMR |= CAN_FMR_FINIT;
+
+	/* Clear all filter registers.*/
+	for (i = 0; i < STM32_CAN_MAX_FILTERS; i++) {
+		canp->can->sFilterRegister[i].FR1 = 0xFFFFFFFF;
+		canp->can->sFilterRegister[i].FR2 = 0xFFFFFFFF;
+	}
+
+	/* Set a default pass-through filter.*/
+	canp->can->sFilterRegister[0].FR1 = 0;
+	canp->can->sFilterRegister[0].FR2 = 0;
+
+	canp->can->FM1R = 0;
+	canp->can->FFA1R = 0;
+	canp->can->FS1R = 0;
+	canp->can->FA1R = 1;
+	canp->can->FA1R = 0;
+
+	canp->can->FMR &= ~CAN_FMR_FINIT;
 }
 
 #if CAN_USE_SLEEP_MODE || defined(__DOXYGEN__)
