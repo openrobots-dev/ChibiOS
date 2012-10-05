@@ -117,23 +117,13 @@
 typedef struct CANDriver CANDriver;
 
 /**
- * @brief   CAN TX mailbox identifier.
- */
-typedef uint32_t canmbox_t;
-
-/**
- * @brief   CAN TX status flags.
- */
-typedef uint32_t cantxflags_t;
-
-/**
  * @brief   CAN TXnotification callback type.
  *
  * @param[in] canp      pointer to the @p CANDriver object triggering the
  *                      callback
  * @param[in] mb        mailbox number
  */
-typedef void (*cantxcallback_t)(CANDriver *canp, canmbox_t mb, cantxflags_t flags);
+typedef void (*cantxcallback_t)(CANDriver *canp, flagsmask_t flags);
 
 /**
  * @brief   CAN RX notification callback type.
@@ -150,7 +140,7 @@ typedef void (*canrxcallback_t)(CANDriver *canp);
  *                      callback
  * @param[in] flags     error mask
  */
-typedef void (*canerrorcallback_t)(CANDriver *canp, uint32_t flags);
+typedef void (*canerrorcallback_t)(CANDriver *canp, flagsmask_t flags);
 
 /**
  * @brief   CAN transmission frame.

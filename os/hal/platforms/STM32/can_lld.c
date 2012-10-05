@@ -56,8 +56,10 @@ CANDriver CAND1;
  * @brief   CAN1 TX interrupt handler.
  *
  * @isr
- */CH_IRQ_HANDLER(CAN1_TX_IRQHandler) {
-	uint32_t tsr;
+ */
+CH_IRQ_HANDLER(CAN1_TX_IRQHandler) {
+  uint32_t tsr;
+  flagsmask_t flags;
 
   CH_IRQ_PROLOGUE();
 
@@ -65,17 +67,10 @@ CANDriver CAND1;
   /* No more events until a message is transmitted.*/
   CAN1->TSR |= CAN_TSR_RQCP0 | CAN_TSR_RQCP1 | CAN_TSR_RQCP2;
 
-  if (tsr & CAN_TSR_RQCP0) {
-    _can_tx_isr_code(&CAND1, 0, (tsr & 0x0E) >> 1);
-  }
-
-  if (tsr & CAN_TSR_RQCP1) {
-    _can_tx_isr_code(&CAND1, 1, (tsr & 0xE00) >> 9);
-  }
-
-  if (tsr & CAN_TSR_RQCP2) {
-    _can_tx_isr_code(&CAND1, 2, (tsr & 0xE0000) >> 17);
-  }
+  /* The status of the transmit mailboxes is copied to the listener flags
+     mask.*/
+  flags = (flagsmask_t) ((tsr & 0x0F) | (tsr & 0xF00) >> 4 | (tsr & 0xF0000) >> 8);
+  _can_tx_isr_code(&CAND1, flags);
 
   CH_IRQ_EPILOGUE();
 }
@@ -103,7 +98,7 @@ CANDriver CAND1;
     CAN1->RF0R = CAN_RF0R_FOVR0;
     /* Portable CAN ISR code defined in the high level driver, note, it is
      a macro.*/
-    _can_error_isr_code(&CAND1, CAN_OVERFLOW_ERROR);
+    _can_error_isr_code(&CAND1, (flagsmask_t) CAN_OVERFLOW_ERROR);
   }
 
   CH_IRQ_EPILOGUE();

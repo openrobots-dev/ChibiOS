@@ -187,13 +187,13 @@ typedef enum {
  *
  * @notapi
  */
-#define _can_tx_isr_code(canp, mb,flags) {                                            \
+#define _can_tx_isr_code(canp, flags) {                                    \
   if ((canp)->config->tx_cb) {                                              \
-    (canp)->config->tx_cb(canp, mb, flags);                                            \
+    (canp)->config->tx_cb(canp, flags);                                     \
   }                                                                         \
   chSysLockFromIsr();                                                       \
   _can_sem_signal_i(&((canp)->txsem));                                      \
-  _can_evt_broadcast_i(&((canp)->tx_event));                                \
+  _can_evt_broadcast_flags_i(&((canp)->tx_event), flags);                   \
   chSysUnlockFromIsr();                                                     \
 }
 
@@ -211,7 +211,7 @@ typedef enum {
  *
  * @notapi
  */
-#define _can_rx_isr_code(canp) {                                            \
+#define _can_rx_isr_code(canp) {                                           \
   if ((canp)->config->rx_cb) {                                              \
     (canp)->config->rx_cb(canp);                                            \
   }                                                                         \
