@@ -265,11 +265,14 @@ bool_t can_lld_can_transmit(CANDriver *canp) {
  * @notapi
  */
 void can_lld_transmit(CANDriver *canp, CANTxFrame *ctfp) {
-	uint32_t tir;
-	CAN_TxMailBox_TypeDef *tmbp;
+  uint32_t tir;
+  CAN_TxMailBox_TypeDef *tmbp;
 
-	/* Id of a free transmission mailbox.*/
-	ctfp->mbox = (canp->can->TSR & CAN_TSR_CODE) >> 24;
+  /* Id of a free transmission mailbox.*/
+  ctfp->mbox = (canp->can->TSR & CAN_TSR_CODE) >> 24;
+
+  /* Pointer to a free transmission mailbox.*/
+  tmbp = &canp->can->sTxMailBox[ctfp->mbox];
 
   /* Preparing the message.*/
   if (ctfp->IDE)
@@ -420,7 +423,6 @@ void can_lld_clear_filters(CANDriver *canp) {
 	canp->can->FFA1R = 0;
 	canp->can->FS1R = 0;
 	canp->can->FA1R = 1;
-	canp->can->FA1R = 0;
 
 	canp->can->FMR &= ~CAN_FMR_FINIT;
 }

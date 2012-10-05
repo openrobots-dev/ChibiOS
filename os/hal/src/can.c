@@ -387,7 +387,6 @@ msg_t canTransmitTimeout(CANDriver *canp, CANTxFrame *ctfp, systime_t timeout) {
       return msg;
     }
   }
-  can_lld_transmit(canp, ctfp);
   chSysUnlock();
   return RDY_OK;
 }
@@ -425,7 +424,6 @@ msg_t canReceiveTimeout(CANDriver *canp, CANRxFrame *crfp, systime_t timeout) {
       return msg;
     }
   }
-  can_lld_receive(canp, crfp);
   chSysUnlock();
   return RDY_OK;
 }

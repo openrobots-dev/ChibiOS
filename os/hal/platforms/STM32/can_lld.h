@@ -351,6 +351,7 @@ extern "C" {
   void can_lld_stop(CANDriver *canp);
   bool_t can_lld_can_transmit(CANDriver *canp);
   void can_lld_transmit(CANDriver *canp, CANTxFrame *crfp);
+  void can_lld_abort_transmit(CANDriver *canp, uint32_t mbox);
   bool_t can_lld_can_receive(CANDriver *canp);
   void can_lld_receive(CANDriver *canp, CANRxFrame *ctfp);
   void can_lld_set_filters(CANDriver *canp, const CANFilter *filters, uint32_t num);
