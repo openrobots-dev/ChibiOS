@@ -1243,6 +1243,17 @@ typedef struct
 } TIM_TypeDef;
 
 /** 
+  * @brief Unique device ID
+  */
+
+typedef struct
+{
+  __IO uint32_t U_ID0;
+  __IO uint32_t U_ID1;
+  __IO uint32_t U_ID2;
+} UID_TypeDef;
+
+/**
   * @brief Universal Synchronous Asynchronous Receiver Transmitter
   */
  
@@ -1382,7 +1393,8 @@ typedef struct
 #define FSMC_Bank3_R_BASE     (FSMC_R_BASE + 0x0080) /*!< FSMC Bank3 registers base address */
 #define FSMC_Bank4_R_BASE     (FSMC_R_BASE + 0x00A0) /*!< FSMC Bank4 registers base address */
 
-#define DBGMCU_BASE          ((uint32_t)0xE0042000) /*!< Debug MCU registers base address */
+#define DBGMCU_BASE           ((uint32_t)0xE0042000) /*!< Debug MCU registers base address */
+#define UID_BASE              ((uint32_t)0x1FFFF7E8) /*!< Unique device ID registers base address */
 
 /**
   * @}
@@ -1466,6 +1478,7 @@ typedef struct
 #define FSMC_Bank3          ((FSMC_Bank3_TypeDef *) FSMC_Bank3_R_BASE)
 #define FSMC_Bank4          ((FSMC_Bank4_TypeDef *) FSMC_Bank4_R_BASE)
 #define DBGMCU              ((DBGMCU_TypeDef *) DBGMCU_BASE)
+#define UID                 ((UID_TypeDef *) UID_BASE)
 
 /**
   * @}
