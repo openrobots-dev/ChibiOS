@@ -69,7 +69,7 @@ CH_IRQ_HANDLER(CAN1_TX_IRQHandler) {
 
   /* The status of the transmit mailboxes is copied to the listener flags
      mask.*/
-  flags = (flagsmask_t) ((tsr & 0x0F) | (tsr & 0xF00) >> 4 | (tsr & 0xF0000) >> 8);
+  flags = (flagsmask_t) tsr;
   _can_tx_isr_code(&CAND1, flags);
 
   CH_IRQ_EPILOGUE();
