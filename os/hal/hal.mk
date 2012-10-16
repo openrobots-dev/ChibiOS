@@ -12,6 +12,7 @@ HALSRC = ${CHIBIOS}/os/hal/src/hal.c \
          ${CHIBIOS}/os/hal/src/mmcsd.c \
          ${CHIBIOS}/os/hal/src/pal.c \
          ${CHIBIOS}/os/hal/src/pwm.c \
+         ${CHIBIOS}/os/hal/src/qei.c \
          ${CHIBIOS}/os/hal/src/rtc.c \
          ${CHIBIOS}/os/hal/src/sdc.c \
          ${CHIBIOS}/os/hal/src/serial.c \

@@ -92,6 +92,9 @@ void halInit(void) {
 #if HAL_USE_PWM || defined(__DOXYGEN__)
   pwmInit();
 #endif
+#if HAL_USE_QEI || defined(__DOXYGEN__)
+  qeiInit();
+#endif
 #if HAL_USE_SERIAL || defined(__DOXYGEN__)
   sdInit();
 #endif

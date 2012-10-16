@@ -52,6 +52,7 @@
 #include "icu.h"
 #include "mac.h"
 #include "pwm.h"
+#include "qei.h"
 #include "rtc.h"
 #include "serial.h"
 #include "sdc.h"
