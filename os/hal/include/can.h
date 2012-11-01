@@ -111,7 +111,6 @@ typedef enum {
   CAN_STARTING = 2,                         /**< Starting.                  */
   CAN_READY = 3,                            /**< Ready.                     */
   CAN_SLEEP = 4,                            /**< Sleep state.               */
-  CAN_ERROR = 5                             /**< Error state.               */
 } canstate_t;
 
 #include "can_lld.h"
@@ -240,7 +239,6 @@ typedef enum {
     (canp)->config->error_cb(canp, flags);                                  \
   }                                                                         \
   chSysLockFromIsr();                                                       \
-  (canp)->state = CAN_ERROR;                                                \
   _can_evt_broadcast_flags_i(&((canp)->error_event), flags);                \
   chSysUnlockFromIsr();                                                     \
 }

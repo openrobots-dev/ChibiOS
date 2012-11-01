@@ -513,21 +513,24 @@ namespace chibios_rt {
     void Broadcast(void);
 
     /**
-     * @brief   Clears specified events from the pending events mask.
+     * @brief   Returns the flags associated to an @p EventListener.
+     * @details The flags are returned and the @p EventListener flags mask is
+     *          cleared.
      *
-     * @param[in] mask          the events to be cleared
-     * @return                  The pending events that were cleared.
-     */
-    static eventmask_t ClearFlags(eventmask_t mask);
+     * @param[in] elp       pointer to the @p EventListener structure
+     * @return              The flags added to the listener by the associated
+     *                      event source.
+      */
+    static flagsmask_t GetAndClearFlags(EventListener *elp);
 
     /**
-     * @brief   Makes an events mask pending in the current thread.
-     * @details This functon is @b much faster than using @p Broadcast().
+     * @brief   Adds (OR) a set of event flags on the current thread, this is
+     *          @b much faster than using @p chEvtBroadcast() or @p chEvtSignal().
      *
-     * @param[in] mask          the events to be pended
-     * @return                  The current pending events mask.
-     */
-    static eventmask_t AddFlags(eventmask_t mask);
+     * @param[in] mask      the event flags to be ORed
+     * @return              The current pending events mask.
+      */
+    static eventmask_t AddEvents(eventmask_t mask);
 
     /**
      * @brief   Invokes the event handlers associated with a mask.
