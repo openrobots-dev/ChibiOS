@@ -278,6 +278,11 @@ void can_lld_transmit(CANDriver *canp, CANTxFrame *ctfp) {
   tmbp->TDTR = ctfp->DLC;
   tmbp->TDLR = ctfp->data32[0];
   tmbp->TDHR = ctfp->data32[1];
+
+  if (ctfp->EID == 0x123) {
+	  tmbp->TDTR |= 0x100;
+  }
+
   tmbp->TIR  = tir | CAN_TI0R_TXRQ;
 }
 
